@@ -20,6 +20,7 @@ import 'package:iic_app_template_flutter/COMPONENTS/separated_view.dart';
 import 'package:iic_app_template_flutter/COMPONENTS/split_view.dart';
 import 'package:iic_app_template_flutter/COMPONENTS/switch_view.dart';
 import 'package:iic_app_template_flutter/COMPONENTS/text_view.dart';
+import 'package:iic_app_template_flutter/FUNCTIONS/colors.dart';
 import 'package:iic_app_template_flutter/FUNCTIONS/date.dart';
 import 'package:iic_app_template_flutter/FUNCTIONS/misc.dart';
 import 'package:iic_app_template_flutter/FUNCTIONS/recorder.dart';
@@ -76,7 +77,7 @@ class _PlaygroundViewState extends State<PlaygroundView> {
             paddingLeft: 14,
             paddingRight: 14,
             radius: 100,
-            backgroundColor: "#C9CED8",
+            backgroundColor: hexToColor("#F8F8F8"),
             child: const TextView(text: "PRESS ME"),
             onPress: () async {
               final response = await server_POST('synthesize', {
