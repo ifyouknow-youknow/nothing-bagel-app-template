@@ -3,7 +3,7 @@ import 'package:iic_app_template_flutter/FUNCTIONS/colors.dart'; // Ensure this 
 
 class ButtonView extends StatefulWidget {
   final Widget child;
-  final String backgroundColor;
+  final Color backgroundColor;
   final double radius;
   final double paddingTop;
   final double paddingLeft;
@@ -14,7 +14,7 @@ class ButtonView extends StatefulWidget {
   const ButtonView({
     super.key,
     required this.child,
-    this.backgroundColor = "#ff0000",
+    this.backgroundColor = Colors.transparent,
     this.radius = 0.0,
     this.paddingTop = 0.0,
     this.paddingLeft = 0.0,
@@ -61,7 +61,7 @@ class _ButtonViewState extends State<ButtonView> {
         child: IntrinsicWidth(
           child: Container(
             decoration: BoxDecoration(
-              color: hexToColor(widget.backgroundColor),
+              color: widget.backgroundColor,
               borderRadius: BorderRadius.circular(widget.radius),
             ),
             padding: EdgeInsets.only(
