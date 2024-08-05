@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:iic_app_template_flutter/FUNCTIONS/colors.dart';
 
 class RoundedCornersView extends StatelessWidget {
   final double topLeft;
@@ -7,7 +6,7 @@ class RoundedCornersView extends StatelessWidget {
   final double bottomLeft;
   final double bottomRight;
   final Color backgroundColor;
-  final List<Widget> children;
+  final Widget child;
 
   const RoundedCornersView({
     super.key,
@@ -16,7 +15,7 @@ class RoundedCornersView extends StatelessWidget {
     this.bottomLeft = 10,
     this.bottomRight = 10,
     this.backgroundColor = Colors.black12,
-    required this.children,
+    required this.child,
   });
 
   @override
@@ -31,7 +30,7 @@ class RoundedCornersView extends StatelessWidget {
       child: Container(
         color: backgroundColor,
         child: Column(
-          children: children,
+          children: [child],
         ),
       ),
     );
