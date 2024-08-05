@@ -88,6 +88,18 @@ class _TextViewState extends State<TextView> {
           letterSpacing: widget.spacing, // Added letterSpacing
         );
         break;
+      case 'inconsolata':
+        textStyle = GoogleFonts.inconsolata(
+          fontSize: widget.size,
+          color: widget.color,
+          decoration: widget.isUnderlined
+              ? TextDecoration.underline
+              : TextDecoration.none,
+          fontWeight: widget.weight,
+          fontStyle: widget.isItalic ? FontStyle.italic : FontStyle.normal,
+          letterSpacing: widget.spacing, // Added letterSpacing
+        );
+        break;
       case 'playfairdisplay':
         textStyle = GoogleFonts.playfairDisplay(
           fontSize: widget.size,
