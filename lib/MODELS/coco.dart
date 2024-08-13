@@ -64,26 +64,27 @@ Future<String?> coco_Send(
 
 // MULTITURN
 // START CHAT
-Future<ChatSession> coco_StartChat() async {
+Future<ChatSession> coco_StartChat(String instructions) async {
   final model = GenerativeModel(
       model: 'gemini-1.5-flash-latest',
       apiKey: geminiKey,
       safetySettings: safetySettings,
-      systemInstruction: Content.text(""));
+      systemInstruction: Content.text(instructions));
   final chat = model.startChat(history: []);
   return chat;
 }
 
 // SEND MESSAGE
-Future<void> coco_SendChat(ChatSession chat, String message) async {
+Future<String?> coco_SendChat(ChatSession chat, String message) async {
   print(message);
   try {
     final response = await chat.sendMessage(Content.text(message));
     final text = response.text ?? "No response";
-    print(text);
+    return text;
     // Handle the response here, e.g., update UI, show confirmation, etc.
   } catch (e) {
     print('Error sending chat: $e');
+    return null;
     // Handle the error, e.g., show an error message to the user
   }
 }

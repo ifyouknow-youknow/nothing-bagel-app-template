@@ -99,6 +99,17 @@ Future<bool> auth_SignOut() async {
   }
 }
 
+Future<bool> auth_DeleteUser(User user) async {
+  try {
+    await user.delete();
+    return true; // Return true if deletion is successful
+  } catch (e) {
+    // Handle the exception by logging or displaying an error message
+    print("Error deleting user: $e");
+    return false; // Return false if an error occurs
+  }
+}
+
 // FIREBASE --------------------------------------
 //CREATE
 Future<bool> firebase_CreateDocument(

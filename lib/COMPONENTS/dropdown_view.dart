@@ -15,7 +15,14 @@ class DropdownView extends StatefulWidget {
 }
 
 class _DropdownViewState extends State<DropdownView> {
-  late String _selectedItem = "One";
+  late String _selectedItem;
+
+  @override
+  void initState() {
+    super.initState();
+    // Initialize _selectedItem with the first item in the list
+    _selectedItem = widget.items[0];
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -29,10 +36,10 @@ class _DropdownViewState extends State<DropdownView> {
       }).toList(),
       onChanged: (value) {
         setState(() {
-          _selectedItem = value.toString();
+          _selectedItem = value!;
         });
         if (widget.onChanged != null) {
-          widget.onChanged!(value.toString());
+          widget.onChanged!(value!);
         }
       },
     );

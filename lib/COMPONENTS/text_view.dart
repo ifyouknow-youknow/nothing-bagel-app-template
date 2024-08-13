@@ -44,7 +44,22 @@ class _TextViewState extends State<TextView> {
   @override
   void initState() {
     super.initState();
+    _initializeText();
+  }
+
+  @override
+  void didUpdateWidget(TextView oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.text != widget.text ||
+        oldWidget.isTypewriter != widget.isTypewriter) {
+      _initializeText();
+    }
+  }
+
+  void _initializeText() {
+    _timer?.cancel();
     if (widget.isTypewriter) {
+      _currentIndex = 0;
       _displayedText = '';
       _startTypewriterEffect();
     } else {
@@ -85,19 +100,7 @@ class _TextViewState extends State<TextView> {
               : TextDecoration.none,
           fontWeight: widget.weight,
           fontStyle: widget.isItalic ? FontStyle.italic : FontStyle.normal,
-          letterSpacing: widget.spacing, // Added letterSpacing
-        );
-        break;
-      case 'inconsolata':
-        textStyle = GoogleFonts.inconsolata(
-          fontSize: widget.size,
-          color: widget.color,
-          decoration: widget.isUnderlined
-              ? TextDecoration.underline
-              : TextDecoration.none,
-          fontWeight: widget.weight,
-          fontStyle: widget.isItalic ? FontStyle.italic : FontStyle.normal,
-          letterSpacing: widget.spacing, // Added letterSpacing
+          letterSpacing: widget.spacing,
         );
         break;
       case 'playfairdisplay':
@@ -109,7 +112,7 @@ class _TextViewState extends State<TextView> {
               : TextDecoration.none,
           fontWeight: widget.weight,
           fontStyle: widget.isItalic ? FontStyle.italic : FontStyle.normal,
-          letterSpacing: widget.spacing, // Added letterSpacing
+          letterSpacing: widget.spacing,
         );
         break;
       case 'lato':
@@ -121,7 +124,7 @@ class _TextViewState extends State<TextView> {
               : TextDecoration.none,
           fontWeight: widget.weight,
           fontStyle: widget.isItalic ? FontStyle.italic : FontStyle.normal,
-          letterSpacing: widget.spacing, // Added letterSpacing
+          letterSpacing: widget.spacing,
         );
         break;
       case 'roboto':
@@ -133,7 +136,7 @@ class _TextViewState extends State<TextView> {
               : TextDecoration.none,
           fontWeight: widget.weight,
           fontStyle: widget.isItalic ? FontStyle.italic : FontStyle.normal,
-          letterSpacing: widget.spacing, // Added letterSpacing
+          letterSpacing: widget.spacing,
         );
         break;
       case 'poppins':
@@ -145,7 +148,7 @@ class _TextViewState extends State<TextView> {
               : TextDecoration.none,
           fontWeight: widget.weight,
           fontStyle: widget.isItalic ? FontStyle.italic : FontStyle.normal,
-          letterSpacing: widget.spacing, // Added letterSpacing
+          letterSpacing: widget.spacing,
         );
         break;
       case 'merriweather':
@@ -157,7 +160,7 @@ class _TextViewState extends State<TextView> {
               : TextDecoration.none,
           fontWeight: widget.weight,
           fontStyle: widget.isItalic ? FontStyle.italic : FontStyle.normal,
-          letterSpacing: widget.spacing, // Added letterSpacing
+          letterSpacing: widget.spacing,
         );
         break;
       default:
@@ -169,7 +172,7 @@ class _TextViewState extends State<TextView> {
               : TextDecoration.none,
           fontWeight: widget.weight,
           fontStyle: widget.isItalic ? FontStyle.italic : FontStyle.normal,
-          letterSpacing: widget.spacing, // Added letterSpacing
+          letterSpacing: widget.spacing,
         );
     }
 
