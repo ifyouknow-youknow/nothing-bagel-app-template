@@ -17,6 +17,7 @@ class TextView extends StatefulWidget {
     this.align = TextAlign.left,
     this.wrap = true,
     this.spacing = 0.0,
+    this.isStriked = false,
   });
 
   final String text;
@@ -30,7 +31,8 @@ class TextView extends StatefulWidget {
   final Duration interval;
   final TextAlign align;
   final bool wrap;
-  final double spacing; // Changed from int to double for letterSpacing
+  final double spacing;
+  final bool isStriked; // Added isStriked property
 
   @override
   _TextViewState createState() => _TextViewState();
@@ -44,22 +46,7 @@ class _TextViewState extends State<TextView> {
   @override
   void initState() {
     super.initState();
-    _initializeText();
-  }
-
-  @override
-  void didUpdateWidget(TextView oldWidget) {
-    super.didUpdateWidget(oldWidget);
-    if (oldWidget.text != widget.text ||
-        oldWidget.isTypewriter != widget.isTypewriter) {
-      _initializeText();
-    }
-  }
-
-  void _initializeText() {
-    _timer?.cancel();
     if (widget.isTypewriter) {
-      _currentIndex = 0;
       _displayedText = '';
       _startTypewriterEffect();
     } else {
@@ -90,14 +77,32 @@ class _TextViewState extends State<TextView> {
   Widget build(BuildContext context) {
     TextStyle textStyle;
 
+    TextDecoration decoration = TextDecoration.none;
+    if (widget.isUnderlined) {
+      decoration = TextDecoration.underline;
+    }
+    if (widget.isStriked) {
+      decoration = decoration == TextDecoration.none
+          ? TextDecoration.lineThrough
+          : TextDecoration.combine([decoration, TextDecoration.lineThrough]);
+    }
+
     switch (widget.font.toLowerCase()) {
       case 'jakarta':
         textStyle = GoogleFonts.plusJakartaSans(
           fontSize: widget.size,
           color: widget.color,
-          decoration: widget.isUnderlined
-              ? TextDecoration.underline
-              : TextDecoration.none,
+          decoration: decoration,
+          fontWeight: widget.weight,
+          fontStyle: widget.isItalic ? FontStyle.italic : FontStyle.normal,
+          letterSpacing: widget.spacing,
+        );
+        break;
+      case 'inconsolata':
+        textStyle = GoogleFonts.inconsolata(
+          fontSize: widget.size,
+          color: widget.color,
+          decoration: decoration,
           fontWeight: widget.weight,
           fontStyle: widget.isItalic ? FontStyle.italic : FontStyle.normal,
           letterSpacing: widget.spacing,
@@ -107,9 +112,7 @@ class _TextViewState extends State<TextView> {
         textStyle = GoogleFonts.playfairDisplay(
           fontSize: widget.size,
           color: widget.color,
-          decoration: widget.isUnderlined
-              ? TextDecoration.underline
-              : TextDecoration.none,
+          decoration: decoration,
           fontWeight: widget.weight,
           fontStyle: widget.isItalic ? FontStyle.italic : FontStyle.normal,
           letterSpacing: widget.spacing,
@@ -119,9 +122,7 @@ class _TextViewState extends State<TextView> {
         textStyle = GoogleFonts.lato(
           fontSize: widget.size,
           color: widget.color,
-          decoration: widget.isUnderlined
-              ? TextDecoration.underline
-              : TextDecoration.none,
+          decoration: decoration,
           fontWeight: widget.weight,
           fontStyle: widget.isItalic ? FontStyle.italic : FontStyle.normal,
           letterSpacing: widget.spacing,
@@ -131,9 +132,7 @@ class _TextViewState extends State<TextView> {
         textStyle = GoogleFonts.roboto(
           fontSize: widget.size,
           color: widget.color,
-          decoration: widget.isUnderlined
-              ? TextDecoration.underline
-              : TextDecoration.none,
+          decoration: decoration,
           fontWeight: widget.weight,
           fontStyle: widget.isItalic ? FontStyle.italic : FontStyle.normal,
           letterSpacing: widget.spacing,
@@ -143,9 +142,7 @@ class _TextViewState extends State<TextView> {
         textStyle = GoogleFonts.poppins(
           fontSize: widget.size,
           color: widget.color,
-          decoration: widget.isUnderlined
-              ? TextDecoration.underline
-              : TextDecoration.none,
+          decoration: decoration,
           fontWeight: widget.weight,
           fontStyle: widget.isItalic ? FontStyle.italic : FontStyle.normal,
           letterSpacing: widget.spacing,
@@ -155,9 +152,7 @@ class _TextViewState extends State<TextView> {
         textStyle = GoogleFonts.merriweather(
           fontSize: widget.size,
           color: widget.color,
-          decoration: widget.isUnderlined
-              ? TextDecoration.underline
-              : TextDecoration.none,
+          decoration: decoration,
           fontWeight: widget.weight,
           fontStyle: widget.isItalic ? FontStyle.italic : FontStyle.normal,
           letterSpacing: widget.spacing,
@@ -167,9 +162,7 @@ class _TextViewState extends State<TextView> {
         textStyle = TextStyle(
           fontSize: widget.size,
           color: widget.color,
-          decoration: widget.isUnderlined
-              ? TextDecoration.underline
-              : TextDecoration.none,
+          decoration: decoration,
           fontWeight: widget.weight,
           fontStyle: widget.isItalic ? FontStyle.italic : FontStyle.normal,
           letterSpacing: widget.spacing,
