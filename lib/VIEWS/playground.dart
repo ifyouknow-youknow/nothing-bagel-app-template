@@ -26,6 +26,7 @@ import 'package:iic_app_template_flutter/FUNCTIONS/misc.dart';
 import 'package:iic_app_template_flutter/FUNCTIONS/recorder.dart';
 import 'package:iic_app_template_flutter/FUNCTIONS/server.dart';
 import 'package:iic_app_template_flutter/MODELS/coco.dart';
+import 'package:iic_app_template_flutter/MODELS/constants.dart';
 import 'package:iic_app_template_flutter/MODELS/firebase.dart';
 import 'package:iic_app_template_flutter/MODELS/screen.dart';
 import 'package:record/record.dart';
@@ -61,16 +62,6 @@ class _PlaygroundViewState extends State<PlaygroundView> {
         ),
         // -------------------
 
-        Container(
-          height: 70,
-          child: PagerView(
-            children: [
-              const TextView(text: "HELLO"),
-              const TextView(text: "GOODBYE BAGEL")
-            ],
-          ),
-        ),
-
         ButtonView(
             paddingTop: 8,
             paddingBottom: 8,
@@ -80,15 +71,7 @@ class _PlaygroundViewState extends State<PlaygroundView> {
             backgroundColor: hexToColor("#F8F8F8"),
             child: const TextView(text: "PRESS ME"),
             onPress: () async {
-              final response = await server_POST('synthesize', {
-                'text':
-                    'Welcome to the Innovative Internet Creations Flutter App Template.'
-              });
-              final List<int> audioData =
-                  List<int>.from(response["audio"]["data"]);
-              final filePath = await writeToFile(audioData);
-              recorder.audioPath = filePath;
-              recorder.playRecording();
+              print("HELLO WORLD");
             })
       ],
     ));
