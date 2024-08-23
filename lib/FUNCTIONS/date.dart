@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 String formatLongDate(DateTime date) {
@@ -99,4 +100,27 @@ DateTime startOfDay(DateTime date) {
 
 DateTime endOfDay(DateTime date) {
   return DateTime.utc(date.year, date.month, date.day, 23, 59, 59, 999);
+}
+
+Future<DateTime?> selectDate(
+  BuildContext context, {
+  required DateTime initialDate,
+  DateTime? minDate,
+  DateTime? maxDate,
+}) async {
+  // Use default values if minDate or maxDate are not provided
+  minDate ??= DateTime.now()
+      .subtract(const Duration(days: 365 * 100)); // Example: 100 years ago
+  maxDate ??= DateTime.now()
+      .add(const Duration(days: 365 * 100)); // Example: 100 years ahead
+
+  final DateTime? pickedDate = await showDatePicker(
+    context: context,
+    initialDate: initialDate,
+    firstDate: minDate,
+    lastDate: maxDate,
+  );
+
+  // Return pickedDate or null if canceled
+  return pickedDate;
 }

@@ -61,7 +61,6 @@ class _PlaygroundViewState extends State<PlaygroundView> {
           height: 20,
         ),
         // -------------------
-
         ButtonView(
             paddingTop: 8,
             paddingBottom: 8,
@@ -71,7 +70,9 @@ class _PlaygroundViewState extends State<PlaygroundView> {
             backgroundColor: hexToColor("#F8F8F8"),
             child: const TextView(text: "PRESS ME"),
             onPress: () async {
-              print("HELLO WORLD");
+              final selected =
+                  await selectDate(context, initialDate: DateTime.now());
+              print(selected);
             })
       ],
     ));
