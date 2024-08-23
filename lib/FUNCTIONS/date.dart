@@ -72,18 +72,6 @@ List<int> getDaysOfMonth(int month, int year) {
   return daysList;
 }
 
-bool _isLeapYear(int year) {
-  if (year % 4 != 0) {
-    return false;
-  } else if (year % 100 != 0) {
-    return true;
-  } else if (year % 400 != 0) {
-    return false;
-  } else {
-    return true;
-  }
-}
-
 int daysBetweenDates(DateTime date1, DateTime date2) {
   // Calculate difference in milliseconds
   Duration difference = date1.difference(date2).abs();
@@ -123,4 +111,31 @@ Future<DateTime?> selectDate(
 
   // Return pickedDate or null if canceled
   return pickedDate;
+}
+
+Future<TimeOfDay?> selectTime(
+  BuildContext context, {
+  required TimeOfDay initialTime,
+}) async {
+  // Show the time picker
+  final TimeOfDay? pickedTime = await showTimePicker(
+      context: context,
+      initialTime: initialTime,
+      initialEntryMode: TimePickerEntryMode.input);
+
+  // Return the picked time or null if the picker is canceled
+  return pickedTime;
+}
+
+// LOCAL
+bool _isLeapYear(int year) {
+  if (year % 4 != 0) {
+    return false;
+  } else if (year % 100 != 0) {
+    return true;
+  } else if (year % 400 != 0) {
+    return false;
+  } else {
+    return true;
+  }
 }
