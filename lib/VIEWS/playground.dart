@@ -70,9 +70,7 @@ class _PlaygroundViewState extends State<PlaygroundView> {
             backgroundColor: hexToColor("#F8F8F8"),
             child: const TextView(text: "PRESS ME"),
             onPress: () async {
-              final selected = await selectTime(context,
-                  initialTime: const TimeOfDay(hour: 10, minute: 0));
-              print(selected);
+              print("HELLO BAGEL");
             })
       ],
     ));
