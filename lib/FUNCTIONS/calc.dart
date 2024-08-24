@@ -1,7 +1,9 @@
 import 'dart:convert';
 import 'dart:math';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
-import 'package:iic_app_template_flutter/MODELS/constants.dart';
+
+final googleKey = dotenv.env['GOOGLE_KEY'] ?? "";
 
 Future<String> getDistanceInMiles(
   Map<String, double> coords1,
@@ -11,7 +13,7 @@ Future<String> getDistanceInMiles(
   String origin = "${coords1['latitude']},${coords1['longitude']}";
   String destination = "${coords2['latitude']},${coords2['longitude']}";
   String requestUrl =
-      "$apiUrl?origins=$origin&destinations=$destination&key=$googleApiKey";
+      "$apiUrl?origins=$origin&destinations=$destination&key=$googleKey";
 
   print("Request URL: $requestUrl");
 
@@ -51,7 +53,7 @@ Future<String> getDistanceInKilometers(
   String origin = "${coords1['latitude']},${coords1['longitude']}";
   String destination = "${coords2['latitude']},${coords2['longitude']}";
   String requestUrl =
-      "$apiUrl?origins=$origin&destinations=$destination&key=$googleApiKey";
+      "$apiUrl?origins=$origin&destinations=$destination&key=$googleKey";
 
   try {
     http.Response response = await http.get(Uri.parse(requestUrl));

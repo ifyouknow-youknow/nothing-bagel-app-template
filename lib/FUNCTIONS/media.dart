@@ -1,4 +1,8 @@
+import 'dart:async';
 import 'dart:io';
+import 'package:mobile_scanner/mobile_scanner.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:mime/mime.dart';
 
@@ -63,5 +67,74 @@ Future<File?> function_TakePhoto() async {
   } else {
     print('No image selected.');
     return null;
+  }
+}
+
+Future<File?> function_ScanQRCode(BuildContext context) async {
+  String? qrResult;
+
+  // Create a Completer to handle asynchronous result
+  final Completer<String?> completer = Completer<String?>();
+
+  // Navigate to QR Scanner Screen
+  Navigator.push(
+    context,
+    MaterialPageRoute(
+      builder: (BuildContext context) => QRScannerScreen(
+        onQRCodeScanned: (result) {
+          qrResult = result;
+          completer.complete(qrResult);
+        },
+      ),
+    ),
+  );
+
+  // Wait for the QR scan result
+  final result = await completer.future;
+
+  if (result == null) {
+    return null; // Return null if no QR code was scanned
+  }
+
+  // Get the application documents directory
+  final directory = await getApplicationDocumentsDirectory();
+  final filePath = '${directory.path}/scanned_qr_code.txt';
+
+  // Create or open the file
+  final file = File(filePath);
+
+  // Write the QR code result to the file
+  await file.writeAsString(result);
+
+  return file;
+}
+
+class QRScannerScreen extends StatelessWidget {
+  final void Function(String) onQRCodeScanned;
+
+  const QRScannerScreen({super.key, required this.onQRCodeScanned});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Scan QR Code'),
+        leading: IconButton(
+          icon: Icon(Icons.close),
+          onPressed: () => Navigator.pop(context),
+        ),
+      ),
+      body: MobileScanner(
+        onDetect: (barcodeCapture) {
+          // Extract the raw value from the BarcodeCapture
+          final qrResult = barcodeCapture.barcodes.first.rawValue;
+          if (qrResult != null) {
+            onQRCodeScanned(qrResult);
+            Navigator.pop(context); // Close the screen after scanning
+          }
+        },
+        fit: BoxFit.cover,
+      ),
+    );
   }
 }

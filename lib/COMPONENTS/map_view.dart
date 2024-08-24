@@ -1,12 +1,22 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:iic_app_template_flutter/COMPONENTS/padding_view.dart';
+import 'package:iic_app_template_flutter/COMPONENTS/textfield_view.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:http/http.dart' as http;
+
+final googleKey = dotenv.env['GOOGLE_KEY'] ?? "";
 
 class MapView extends StatefulWidget {
   final List<LatLng> locations;
   final double height;
   final double delta;
   final bool isScrolling;
+  final bool isSearchable; // New field to enable or disable the search feature
+  final void Function(LatLng location)? onMarkerTap;
+  final LatLng? initialArea;
 
   const MapView({
     Key? key,
@@ -14,6 +24,9 @@ class MapView extends StatefulWidget {
     this.height = 300,
     this.delta = 0.001,
     this.isScrolling = false,
+    this.isSearchable = false, // Default to false
+    this.onMarkerTap,
+    this.initialArea,
   }) : super(key: key);
 
   @override
@@ -22,14 +35,14 @@ class MapView extends StatefulWidget {
 
 class _MapViewState extends State<MapView> {
   late GoogleMapController _mapController;
-  final Set<Marker> _markers = {};
+  Marker? _singleMarker;
   LatLngBounds? _bounds;
+  TextEditingController _searchController = TextEditingController();
 
   @override
   void initState() {
     super.initState();
     _checkLocationPermission();
-    _setMarkers();
   }
 
   Future<void> _checkLocationPermission() async {
@@ -40,15 +53,43 @@ class _MapViewState extends State<MapView> {
     }
   }
 
-  void _setMarkers() {
+  void _addOrReplaceMarker(LatLng position) {
     setState(() {
-      for (var location in widget.locations) {
-        _markers.add(Marker(
-          markerId: MarkerId(location.toString()),
-          position: location,
-        ));
-      }
+      _singleMarker = Marker(
+        markerId: const MarkerId('single_marker'),
+        position: position,
+        onTap: () {
+          if (widget.onMarkerTap != null) {
+            widget.onMarkerTap!(position);
+          }
+        },
+      );
     });
+  }
+
+  Future<void> _searchLocation(String address) async {
+    final String apiKey = googleKey;
+    final String url =
+        'https://maps.googleapis.com/maps/api/geocode/json?address=$address&key=$apiKey';
+
+    try {
+      final response = await http.get(Uri.parse(url));
+      final data = json.decode(response.body);
+
+      if (data['status'] == 'OK') {
+        final location = data['results'][0]['geometry']['location'];
+        final LatLng newPosition = LatLng(location['lat'], location['lng']);
+
+        _mapController.animateCamera(
+          CameraUpdate.newLatLng(newPosition),
+        );
+        _addOrReplaceMarker(newPosition);
+      } else {
+        print('Error: ${data['status']}');
+      }
+    } catch (e) {
+      print('Error occurred: $e');
+    }
   }
 
   void _setMapBounds() {
@@ -67,12 +108,17 @@ class _MapViewState extends State<MapView> {
           northEastLng = location.longitude;
       }
 
+      // Apply delta to expand the bounds
       double delta = widget.delta;
 
       _bounds = LatLngBounds(
         southwest: LatLng(southWestLat - delta, southWestLng - delta),
         northeast: LatLng(northEastLat + delta, northEastLng + delta),
       );
+
+      // Debug print statements to verify the bounds
+      print('Southwest: ${_bounds!.southwest}');
+      print('Northeast: ${_bounds!.northeast}');
 
       if (_mapController != null) {
         _mapController.animateCamera(
@@ -84,22 +130,53 @@ class _MapViewState extends State<MapView> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: widget.height,
-      child: GoogleMap(
-        onMapCreated: (controller) {
-          _mapController = controller;
-          _setMapBounds();
-        },
-        initialCameraPosition: CameraPosition(
-          target: widget.locations.isNotEmpty
-              ? widget.locations.first
-              : const LatLng(0, 0),
-          zoom: 10,
+    return Column(
+      children: [
+        if (widget.isSearchable) // Show search field if isSearchable is true
+          PaddingView(
+            paddingTop: 0,
+            paddingBottom: 10,
+            child: Row(
+              children: [
+                Expanded(child: TextfieldView(controller: _searchController)),
+                IconButton(
+                  icon: const Icon(
+                    Icons.search,
+                    size: 30,
+                  ),
+                  onPressed: () {
+                    _searchLocation(_searchController.text);
+                  },
+                ),
+              ],
+            ),
+          ),
+        Container(
+          height: widget.height,
+          child: GoogleMap(
+            onMapCreated: (controller) {
+              _mapController = controller;
+              if (widget.locations.isNotEmpty) {
+                _setMapBounds();
+              }
+            },
+            initialCameraPosition: CameraPosition(
+              target: widget.initialArea ??
+                  (widget.locations.isNotEmpty
+                      ? widget.locations.first
+                      : const LatLng(0, 0)),
+              zoom: 10,
+            ),
+            markers: _singleMarker != null ? {_singleMarker!} : {},
+            scrollGesturesEnabled: widget.isScrolling,
+            onTap: (position) {
+              if (widget.locations.isEmpty) {
+                _addOrReplaceMarker(position);
+              }
+            },
+          ),
         ),
-        markers: _markers,
-        scrollGesturesEnabled: widget.isScrolling,
-      ),
+      ],
     );
   }
 }

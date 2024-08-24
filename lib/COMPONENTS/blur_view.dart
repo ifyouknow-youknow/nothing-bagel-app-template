@@ -15,21 +15,17 @@ class BlurView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        Positioned.fill(
-          child: BackdropFilter(
-            filter: ImageFilter.blur(
-              sigmaX: intensity,
-              sigmaY: intensity,
-            ),
-            child: Container(
-              color: color, // Overlay color
-            ),
-          ),
+    return ClipRect(
+      child: BackdropFilter(
+        filter: ImageFilter.blur(
+          sigmaX: intensity,
+          sigmaY: intensity,
         ),
-        child,
-      ],
+        child: Container(
+          color: color,
+          child: child,
+        ),
+      ),
     );
   }
 }

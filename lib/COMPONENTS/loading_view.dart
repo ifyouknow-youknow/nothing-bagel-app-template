@@ -1,7 +1,7 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
-
+import 'package:iic_app_template_flutter/COMPONENTS/blur_view.dart';
 import 'package:iic_app_template_flutter/COMPONENTS/text_view.dart';
 
 class LoadingView extends StatelessWidget {
@@ -9,11 +9,11 @@ class LoadingView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BackdropFilter(
-      filter: ImageFilter.blur(sigmaX: 5.0, sigmaY: 5.0),
-      child: Container(
-        color: Colors.black.withOpacity(0.7),
-        child: const Center(
+    return const SizedBox.expand(
+      child: BlurView(
+        intensity: 3,
+        color: Color.fromARGB(183, 20, 19, 19),
+        child: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [

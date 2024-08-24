@@ -36,7 +36,7 @@ class TextfieldView extends StatefulWidget {
     this.color = Colors.black,
     this.backgroundColor = Colors.black12,
     this.paddingV = 10,
-    this.paddingH = 0,
+    this.paddingH = 10,
     this.enabled = true,
     this.borderWidth = 0,
     this.borderColor = Colors.black,
@@ -110,8 +110,7 @@ class _TextfieldViewState extends State<TextfieldView> {
               autofocus: widget.isAutoFocus,
               decoration: InputDecoration(
                 hintText: widget.placeholder,
-                hintStyle:
-                    GoogleFonts.inconsolata(color: widget.placeholderColor),
+                hintStyle: GoogleFonts.roboto(color: widget.placeholderColor),
                 contentPadding: EdgeInsets.symmetric(
                   vertical: widget.paddingV,
                   horizontal: widget.paddingH,
@@ -122,7 +121,7 @@ class _TextfieldViewState extends State<TextfieldView> {
               keyboardType: widget.multiline
                   ? TextInputType.multiline
                   : widget.keyboardType,
-              style: GoogleFonts.inconsolata(
+              style: GoogleFonts.roboto(
                 fontSize: widget.size,
                 color: widget.color,
               ),
@@ -151,7 +150,7 @@ class _TextfieldViewState extends State<TextfieldView> {
                       text: 'done',
                       color: widget.color,
                       size: 20,
-                      font: 'inconsolata',
+                      // font: 'inconsolata',
                       weight: FontWeight.w400,
                     ),
                   ),
