@@ -44,6 +44,75 @@ DateTime createDate(int month, int day, int year) {
   return DateTime(year, month, day);
 }
 
+String getMonthName(int month) {
+  // List of month names in order
+  List<String> monthNames = [
+    'January',
+    'February',
+    'March',
+    'April',
+    'May',
+    'June',
+    'July',
+    'August',
+    'September',
+    'October',
+    'November',
+    'December'
+  ];
+
+  // Validate the input range
+  if (month < 1 || month > 12) {
+    throw ArgumentError('Month must be between 1 and 12.');
+  }
+
+  // Return the month name
+  return monthNames[month - 1];
+}
+
+int getMonthNum(String monthStr) {
+  switch (monthStr.toLowerCase()) {
+    case "january":
+      return 1;
+    case "february":
+      return 2;
+    case "march":
+      return 3;
+    case "april":
+      return 4;
+    case "may":
+      return 5;
+    case "june":
+      return 6;
+    case "july":
+      return 7;
+    case "august":
+      return 8;
+    case "september":
+      return 9;
+    case "october":
+      return 10;
+    case "november":
+      return 11;
+    case "december":
+      return 12;
+    default:
+      throw ArgumentError("Invalid month string: $monthStr");
+  }
+}
+
+List<String> getMonthsOfYear(int year) {
+  List<String> months = [];
+
+  for (int month = 1; month <= 12; month++) {
+    DateTime date = DateTime(year, month);
+    String monthName = getMonthName(date.month);
+    months.add(monthName);
+  }
+
+  return months;
+}
+
 List<int> getDaysOfMonth(int month, int year) {
   // Validate month input
   if (month < 1 || month > 12) {

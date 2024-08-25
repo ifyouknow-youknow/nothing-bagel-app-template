@@ -6,6 +6,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:iic_app_template_flutter/COMPONENTS/accordion_view.dart';
 import 'package:iic_app_template_flutter/COMPONENTS/blur_view.dart';
 import 'package:iic_app_template_flutter/COMPONENTS/button_view.dart';
+import 'package:iic_app_template_flutter/COMPONENTS/calendar_view.dart';
 import 'package:iic_app_template_flutter/COMPONENTS/checkbox_view.dart';
 import 'package:iic_app_template_flutter/COMPONENTS/dropdown_view.dart';
 import 'package:iic_app_template_flutter/COMPONENTS/fade_view.dart';
@@ -63,7 +64,18 @@ class _PlaygroundViewState extends State<PlaygroundView> {
           ),
           onPress: () {
             function_ScanQRCode(context);
-          })
+          }),
+      const SizedBox(
+        height: 10,
+      ),
+      CalendarView(
+        onTapDate: (date) {
+          print(date);
+        },
+        disabledDates: [DateTime(2024, 8, 10)],
+        highlightedDates: [DateTime(2024, 9, 12)],
+        startToday: true,
+      ),
     ]);
   }
 }

@@ -10,6 +10,7 @@ class ButtonView extends StatefulWidget {
   final double paddingRight;
   final double paddingBottom;
   final VoidCallback onPress;
+  final bool isDisabled;
 
   const ButtonView({
     super.key,
@@ -21,6 +22,7 @@ class ButtonView extends StatefulWidget {
     this.paddingRight = 0.0,
     this.paddingBottom = 0.0,
     required this.onPress,
+    this.isDisabled = false,
   });
 
   @override
@@ -31,21 +33,27 @@ class _ButtonViewState extends State<ButtonView> {
   double _opacity = 1.0;
 
   void _onTapDown(TapDownDetails details) {
-    setState(() {
-      _opacity = 0.6; // Reduce opacity on tap down
-    });
+    if (!widget.isDisabled) {
+      setState(() {
+        _opacity = 0.6; // Reduce opacity on tap down
+      });
+    }
   }
 
   void _onTapUp(TapUpDetails details) {
-    setState(() {
-      _opacity = 1.0; // Restore opacity on tap up
-    });
+    if (!widget.isDisabled) {
+      setState(() {
+        _opacity = 1.0; // Restore opacity on tap up
+      });
+    }
   }
 
   void _onTapCancel() {
-    setState(() {
-      _opacity = 1.0; // Restore opacity if tap is cancelled
-    });
+    if (!widget.isDisabled) {
+      setState(() {
+        _opacity = 1.0; // Restore opacity if tap is cancelled
+      });
+    }
   }
 
   @override
@@ -54,10 +62,12 @@ class _ButtonViewState extends State<ButtonView> {
       onTapDown: _onTapDown,
       onTapUp: _onTapUp,
       onTapCancel: _onTapCancel,
-      onTap: widget.onPress,
+      onTap: widget.isDisabled ? null : widget.onPress,
       child: AnimatedOpacity(
         duration: Duration(milliseconds: 100),
-        opacity: _opacity,
+        opacity: widget.isDisabled
+            ? 0.5
+            : _opacity, // Set opacity based on disabled state
         child: IntrinsicWidth(
           child: Container(
             decoration: BoxDecoration(
