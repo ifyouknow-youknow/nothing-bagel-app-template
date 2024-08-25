@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:iic_app_template_flutter/MODELS/DATAMASTER/datamaster.dart';
 import 'package:iic_app_template_flutter/MODELS/firebase.dart';
+import 'package:iic_app_template_flutter/VIEWS/Login.dart';
 import 'package:iic_app_template_flutter/VIEWS/playground.dart';
 import 'package:iic_app_template_flutter/firebase_options.dart';
 
@@ -16,7 +17,7 @@ void main() async {
 
   runApp(
     MaterialApp(
-      home: PlaygroundView(dm: DataMaster()),
+      home: Login(dm: DataMaster()),
     ),
     // initialRoute: "/",
     // routes: {
