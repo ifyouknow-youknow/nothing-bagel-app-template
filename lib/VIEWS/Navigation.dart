@@ -6,7 +6,9 @@ import 'package:iic_app_template_flutter/COMPONENTS/padding_view.dart';
 import 'package:iic_app_template_flutter/COMPONENTS/text_view.dart';
 import 'package:iic_app_template_flutter/FUNCTIONS/nav.dart';
 import 'package:iic_app_template_flutter/MODELS/DATAMASTER/datamaster.dart';
+import 'package:iic_app_template_flutter/MODELS/firebase.dart';
 import 'package:iic_app_template_flutter/MODELS/screen.dart';
+import 'package:iic_app_template_flutter/VIEWS/Login.dart';
 
 class Navigation extends StatefulWidget {
   final DataMaster dm;
@@ -52,6 +54,51 @@ class _NavigationState extends State<Navigation> {
                 })
           ],
         ),
+      ),
+      const Expanded(
+        child: Column(),
+      ),
+      PaddingView(
+        child: ButtonView(
+            child: const Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Icon(
+                  Icons.logout,
+                  color: Colors.red,
+                  size: 22,
+                ),
+                SizedBox(
+                  width: 10,
+                ),
+                TextView(
+                  text: 'sign out',
+                  color: Colors.red,
+                  size: 18,
+                )
+              ],
+            ),
+            onPress: () async {
+              final success = await auth_SignOut();
+              if (success) {
+                nav_PushAndRemove(context, Login(dm: widget.dm));
+              }
+            }),
+      ),
+      const Divider(
+        color: Colors.black26,
+      ),
+      PaddingView(
+        child: ButtonView(
+          child: const TextView(
+            text: 'delete account',
+            color: Colors.black54,
+          ),
+          onPress: () {},
+        ),
+      ),
+      const SizedBox(
+        height: 30,
       )
     ]);
   }

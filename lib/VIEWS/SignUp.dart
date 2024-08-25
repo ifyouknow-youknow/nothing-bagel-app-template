@@ -74,28 +74,25 @@ class _SignupState extends State<SignUp> {
         setState(() {
           widget.dm.setToggleLoading(false);
         });
-        nav_PushAndRemove(context, Dashboard(dm: widget.dm));
+        final signedIn = await widget.dm.checkUser();
+        if (signedIn) {
+          nav_PushAndRemove(context, Dashboard(dm: widget.dm));
+        }
       } else {
         setState(() {
           widget.dm.setToggleLoading(false);
-          widget.dm.setAlertTitle('Uh Oh!');
-          widget.dm
-              .setAlertText('Something went wrong. Please try again later.');
-          widget.dm.setToggleAlert(true);
+          widget.dm.alertSomethingWrong();
         });
         return;
       }
     } else {
       setState(() {
         widget.dm.setToggleLoading(false);
-        widget.dm.setAlertTitle('Uh Oh!');
-        widget.dm.setAlertText('Something went wrong. Please try again later.');
-        widget.dm.setToggleAlert(true);
+        widget.dm.alertSomethingWrong();
       });
       return;
     }
   }
-
 //
 
   @override

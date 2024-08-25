@@ -32,9 +32,7 @@ class _LoginState extends State<Login> {
 
     if (email.isEmpty || password.isEmpty) {
       setState(() {
-        widget.dm.setAlertTitle('Missing Info');
-        widget.dm.setAlertText('Please provide a valid email and password.');
-        widget.dm.setToggleAlert(true);
+        widget.dm.alertMissingInfo();
       });
       return;
     }
@@ -42,13 +40,42 @@ class _LoginState extends State<Login> {
     setState(() {
       widget.dm.setToggleLoading(true);
     });
+
+    final _ = await auth_SignIn(email, password);
+    final signedIn = await widget.dm.checkUser();
+    if (signedIn) {
+      nav_PushAndRemove(context, Dashboard(dm: widget.dm));
+    }
   }
 
-  void init() async {
-    final user = await auth_CheckUser();
-    if (user != null) {
-      nav_PushAndRemove(context, Dashboard(dm: widget.dm));
+  void onForgotPassword() async {
+    final email = _emailController.text;
+
+    if (email.isEmpty) {
+      setState(() {
+        widget.dm.setAlertTitle('Missing Email');
+        widget.dm.setAlertText('Please provide a valid email.');
+        widget.dm.setToggleAlert(true);
+      });
       return;
+    }
+
+    final success = await auth_ForgotPassword(email);
+    if (success) {
+      setState(() {
+        widget.dm.setAlertTitle('Email Sent.');
+        widget.dm.setAlertText(
+            'Check your email to reset your password. This email may be found in your spam folder.');
+        widget.dm.setToggleAlert(true);
+      });
+    }
+  }
+
+  //
+  void init() async {
+    final success = await widget.dm.checkUser();
+    if (success) {
+      nav_PushAndRemove(context, Dashboard(dm: widget.dm));
     }
   }
 
@@ -159,11 +186,20 @@ class _LoginState extends State<Login> {
                   isPassword: true,
                 ),
                 const SizedBox(
-                  height: 10,
+                  height: 20,
                 ),
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    ButtonView(
+                        child: const TextView(
+                          text: 'forgot password?',
+                          size: 15,
+                        ),
+                        onPress: () {
+                          onForgotPassword();
+                        }),
                     ButtonView(
                         paddingBottom: 8,
                         paddingTop: 8,
