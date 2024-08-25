@@ -68,14 +68,6 @@ class _PlaygroundViewState extends State<PlaygroundView> {
       const SizedBox(
         height: 10,
       ),
-      CalendarView(
-        onTapDate: (date) {
-          print(date);
-        },
-        disabledDates: [DateTime(2024, 8, 10)],
-        highlightedDates: [DateTime(2024, 9, 12)],
-        startToday: true,
-      ),
     ]);
   }
 }

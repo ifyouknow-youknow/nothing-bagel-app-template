@@ -127,6 +127,7 @@ class _CalendarViewState extends State<CalendarView> {
                                         date.isBefore(DateTime.now()));
 
                             return ButtonView(
+                              radius: 100,
                               isDisabled: isDisabled,
                               backgroundColor: isHighlighted
                                   ? widget.selectedColor
