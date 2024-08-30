@@ -1,17 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:iic_app_template_flutter/COMPONENTS/button_view.dart';
-import 'package:iic_app_template_flutter/COMPONENTS/image_view.dart';
-import 'package:iic_app_template_flutter/COMPONENTS/main_view.dart';
-import 'package:iic_app_template_flutter/COMPONENTS/padding_view.dart';
-import 'package:iic_app_template_flutter/COMPONENTS/text_view.dart';
-import 'package:iic_app_template_flutter/COMPONENTS/textfield_view.dart';
-import 'package:iic_app_template_flutter/FUNCTIONS/colors.dart';
-import 'package:iic_app_template_flutter/FUNCTIONS/nav.dart';
-import 'package:iic_app_template_flutter/MODELS/DATAMASTER/datamaster.dart';
-import 'package:iic_app_template_flutter/MODELS/firebase.dart';
-import 'package:iic_app_template_flutter/MODELS/screen.dart';
-import 'package:iic_app_template_flutter/VIEWS/Dashboard.dart';
-import 'package:iic_app_template_flutter/VIEWS/Signup.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:edmusica_teachers/COMPONENTS/button_view.dart';
+import 'package:edmusica_teachers/COMPONENTS/image_view.dart';
+import 'package:edmusica_teachers/COMPONENTS/main_view.dart';
+import 'package:edmusica_teachers/COMPONENTS/padding_view.dart';
+import 'package:edmusica_teachers/COMPONENTS/text_view.dart';
+import 'package:edmusica_teachers/COMPONENTS/textfield_view.dart';
+import 'package:edmusica_teachers/FUNCTIONS/colors.dart';
+import 'package:edmusica_teachers/FUNCTIONS/location.dart';
+import 'package:edmusica_teachers/FUNCTIONS/nav.dart';
+import 'package:edmusica_teachers/MODELS/DATAMASTER/datamaster.dart';
+import 'package:edmusica_teachers/MODELS/firebase.dart';
+import 'package:edmusica_teachers/MODELS/screen.dart';
+import 'package:edmusica_teachers/VIEWS/Dashboard.dart';
+import 'package:edmusica_teachers/VIEWS/Signup.dart';
 
 class Login extends StatefulWidget {
   final DataMaster dm;
@@ -44,6 +46,7 @@ class _LoginState extends State<Login> {
     final _ = await auth_SignIn(email, password);
     final signedIn = await widget.dm.checkUser();
     if (signedIn) {
+      widget.dm.setToggleLoading(false);
       nav_PushAndRemove(context, Dashboard(dm: widget.dm));
     }
   }
@@ -73,10 +76,21 @@ class _LoginState extends State<Login> {
 
   //
   void init() async {
+    setState(() {
+      widget.dm.setToggleLoading(true);
+    });
+    final loc = await getLocation();
+    if (loc != null) {
+      widget.dm.setMyLocation(LatLng(loc.latitude, loc.longitude));
+    }
+
     final success = await widget.dm.checkUser();
     if (success) {
       nav_PushAndRemove(context, Dashboard(dm: widget.dm));
     }
+    setState(() {
+      widget.dm.setToggleLoading(false);
+    });
   }
 
   @override
@@ -196,6 +210,7 @@ class _LoginState extends State<Login> {
                         child: const TextView(
                           text: 'forgot password?',
                           size: 15,
+                          wrap: false,
                         ),
                         onPress: () {
                           onForgotPassword();

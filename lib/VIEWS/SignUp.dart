@@ -1,17 +1,20 @@
 import 'package:flutter/material.dart';
-import 'package:iic_app_template_flutter/COMPONENTS/button_view.dart';
-import 'package:iic_app_template_flutter/COMPONENTS/image_view.dart';
-import 'package:iic_app_template_flutter/COMPONENTS/main_view.dart';
-import 'package:iic_app_template_flutter/COMPONENTS/padding_view.dart';
-import 'package:iic_app_template_flutter/COMPONENTS/text_view.dart';
-import 'package:iic_app_template_flutter/COMPONENTS/textfield_view.dart';
-import 'package:iic_app_template_flutter/FUNCTIONS/colors.dart';
-import 'package:iic_app_template_flutter/FUNCTIONS/nav.dart';
-import 'package:iic_app_template_flutter/MODELS/DATAMASTER/datamaster.dart';
-import 'package:iic_app_template_flutter/MODELS/constants.dart';
-import 'package:iic_app_template_flutter/MODELS/firebase.dart';
-import 'package:iic_app_template_flutter/MODELS/screen.dart';
-import 'package:iic_app_template_flutter/VIEWS/Dashboard.dart';
+import 'package:edmusica_teachers/COMPONENTS/dropdown_view.dart';
+import 'package:edmusica_teachers/COMPONENTS/future_view.dart';
+import 'package:edmusica_teachers/VIEWS/Login.dart';
+import 'package:edmusica_teachers/COMPONENTS/button_view.dart';
+import 'package:edmusica_teachers/COMPONENTS/image_view.dart';
+import 'package:edmusica_teachers/COMPONENTS/main_view.dart';
+import 'package:edmusica_teachers/COMPONENTS/padding_view.dart';
+import 'package:edmusica_teachers/COMPONENTS/text_view.dart';
+import 'package:edmusica_teachers/COMPONENTS/textfield_view.dart';
+import 'package:edmusica_teachers/FUNCTIONS/colors.dart';
+import 'package:edmusica_teachers/FUNCTIONS/nav.dart';
+import 'package:edmusica_teachers/MODELS/DATAMASTER/datamaster.dart';
+import 'package:edmusica_teachers/MODELS/constants.dart';
+import 'package:edmusica_teachers/MODELS/firebase.dart';
+import 'package:edmusica_teachers/MODELS/screen.dart';
+import 'package:edmusica_teachers/VIEWS/Dashboard.dart';
 
 class SignUp extends StatefulWidget {
   final DataMaster dm;
@@ -28,8 +31,43 @@ class _SignupState extends State<SignUp> {
   TextEditingController _password = TextEditingController();
   TextEditingController _confirmPassword = TextEditingController();
 
-//
-  void onSignUp() async {
+  List<dynamic> _districts = [];
+  String _chosenDistrict = "";
+
+  @override
+  void initState() {
+    super.initState();
+    _init();
+  }
+
+  @override
+  void dispose() {
+    _firstNameController.dispose();
+    _lastNameController.dispose();
+    _emailController.dispose();
+    _password.dispose();
+    _confirmPassword.dispose();
+    super.dispose();
+  }
+
+  Future<void> _init() async {
+    try {
+      final docs = await firebase_GetAllDocuments('${appName}_Districts');
+      if (mounted) {
+        setState(() {
+          _districts = docs;
+          if (docs.isNotEmpty) {
+            _chosenDistrict = docs[0]['name'] as String;
+          }
+        });
+      }
+    } catch (e) {
+      // Handle potential errors from firebase_GetAllDocuments
+      print("Error fetching districts: $e");
+    }
+  }
+
+  Future<void> onSignUp() async {
     final firstName = _firstNameController.text;
     final lastName = _lastNameController.text;
     final email = _emailController.text;
@@ -58,62 +96,52 @@ class _SignupState extends State<SignUp> {
       return;
     }
 
-    // GOOD TO GO!
     setState(() {
       widget.dm.setToggleLoading(true);
     });
 
-    final user = await auth_CreateUser(email, password);
-    if (user != null) {
-      // STORE INFO AND NAVIGATE
-      final success = await firebase_CreateDocument(
-          '${appName}_Teachers',
-          user.uid,
-          {'firstName': firstName, 'lastName': lastName, 'email': email});
-      if (success) {
-        setState(() {
-          widget.dm.setToggleLoading(false);
+    try {
+      final user = await auth_CreateUser(email, password);
+      if (user != null) {
+        final docs = await firebase_GetAllDocuments('${appName}_Districts');
+        final districtId =
+            docs.firstWhere((dist) => dist['name'] == _chosenDistrict)['id'];
+        final success =
+            await firebase_CreateDocument('${appName}_Teachers', user.uid, {
+          'firstName': firstName,
+          'lastName': lastName,
+          'email': email,
+          'districtId': districtId
         });
-        final signedIn = await widget.dm.checkUser();
-        if (signedIn) {
-          nav_PushAndRemove(context, Dashboard(dm: widget.dm));
+        if (success) {
+          final signedIn = await widget.dm.checkUser();
+          setState(() {
+            widget.dm.setToggleLoading(false);
+            widget.dm.setAlertTitle('Success!');
+            widget.dm.setAlertText(
+                'Your account has been successfully created. Please log in to complete your first sign-in.');
+            widget.dm.setToggleAlert(true);
+          });
+          nav_Pop(context);
+        } else {
+          setState(() {
+            widget.dm.setToggleLoading(false);
+            widget.dm.alertSomethingWrong();
+          });
         }
       } else {
         setState(() {
           widget.dm.setToggleLoading(false);
           widget.dm.alertSomethingWrong();
         });
-        return;
       }
-    } else {
+    } catch (e) {
       setState(() {
         widget.dm.setToggleLoading(false);
         widget.dm.alertSomethingWrong();
       });
-      return;
+      print("Error during sign up: $e");
     }
-  }
-//
-
-  @override
-  void initState() {
-    super.initState();
-    _password.addListener(() {
-      setState(() {});
-    });
-    _confirmPassword.addListener(() {
-      setState(() {});
-    });
-  }
-
-  @override
-  void dispose() {
-    _firstNameController.dispose();
-    _lastNameController.dispose();
-    _emailController.dispose();
-    _password.dispose();
-    _confirmPassword.dispose();
-    super.dispose();
   }
 
   @override
@@ -127,95 +155,99 @@ class _SignupState extends State<SignUp> {
           ),
         ),
       ),
-      SingleChildScrollView(
-        child: SizedBox(
-          width: getWidth(context),
-          child: PaddingView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const TextView(
-                  text: 'Sign Up',
-                  size: 30,
-                  weight: FontWeight.w800,
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
-                const TextView(
-                  text: 'First Name',
-                ),
-                TextfieldView(
-                  controller: _firstNameController,
-                  placeholder: 'ex. Jane',
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
-                const TextView(
-                  text: 'Last Name',
-                ),
-                TextfieldView(
-                  controller: _lastNameController,
-                  placeholder: 'ex. Doe',
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
-                const TextView(
-                  text: 'Email',
-                ),
-                TextfieldView(
-                  controller: _emailController,
-                  placeholder: 'ex. jdoe@gmail.com',
-                  keyboardType: TextInputType.emailAddress,
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
-                const TextView(
-                  text: 'Password',
-                ),
-                TextfieldView(
-                  controller: _password,
-                  placeholder: 'must be 8 chars. min',
-                  isPassword: true,
-                ),
-                if (_password.text.isNotEmpty && _password.text.length < 8)
+      Expanded(
+        child: SingleChildScrollView(
+          child: SizedBox(
+            width: getWidth(context),
+            child: PaddingView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
                   const TextView(
-                    text: 'Password must be 8 characters minimum.',
-                    color: Colors.deepOrange,
+                    text: 'Sign Up',
+                    size: 30,
+                    weight: FontWeight.w800,
                   ),
-                const SizedBox(
-                  height: 10,
-                ),
-                const TextView(
-                  text: 'Confirm Password',
-                ),
-                TextfieldView(
-                  controller: _confirmPassword,
-                  placeholder: 'passwords must match..',
-                  isPassword: true,
-                ),
-                if (_password.text.length >= 8 &&
-                    _confirmPassword.text.isNotEmpty &&
-                    _password.text != _confirmPassword.text)
+                  const SizedBox(
+                    height: 20,
+                  ),
                   const TextView(
-                    text: 'Passwords do not match.',
-                    color: Colors.red,
+                    text: 'First Name',
                   ),
-                if (_password.text.isNotEmpty &&
-                    _confirmPassword.text == _password.text)
+                  TextfieldView(
+                    controller: _firstNameController,
+                    placeholder: 'ex. Jane',
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
                   const TextView(
-                    text: 'Passwords match!',
-                    color: Colors.green,
+                    text: 'Last Name',
                   ),
-              ],
+                  TextfieldView(
+                    controller: _lastNameController,
+                    placeholder: 'ex. Doe',
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  const TextView(
+                    text: 'Email',
+                  ),
+                  TextfieldView(
+                    controller: _emailController,
+                    placeholder: 'ex. jdoe@gmail.com',
+                    keyboardType: TextInputType.emailAddress,
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  const TextView(
+                    text: 'District',
+                  ),
+                  if (_districts.isNotEmpty)
+                    DropdownView(
+                      defaultValue: _districts[0]['name'],
+                      backgroundColor: Colors.white,
+                      items: _districts
+                          .map<String>((district) => district['name'] as String)
+                          .toList(),
+                      onChanged: (value) {
+                        setState(() {
+                          _chosenDistrict = value;
+                        });
+                      },
+                    ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  const TextView(
+                    text: 'Password',
+                  ),
+                  TextfieldView(
+                    controller: _password,
+                    placeholder: 'must be 8 chars. min',
+                    isPassword: true,
+                    color: Colors.black,
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  const TextView(
+                    text: 'Confirm Password',
+                  ),
+                  TextfieldView(
+                    controller: _confirmPassword,
+                    placeholder: 'passwords must match..',
+                    isPassword: true,
+                    color: Colors.black,
+                  ),
+                ],
+              ),
             ),
           ),
         ),
       ),
-      const Spacer(),
       PaddingView(
         child: Row(
           mainAxisAlignment: MainAxisAlignment.end,

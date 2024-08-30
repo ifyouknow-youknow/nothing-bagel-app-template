@@ -6,8 +6,8 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:iic_app_template_flutter/FUNCTIONS/misc.dart';
-import 'package:iic_app_template_flutter/FUNCTIONS/server.dart';
+import 'package:edmusica_teachers/FUNCTIONS/misc.dart';
+import 'package:edmusica_teachers/FUNCTIONS/server.dart';
 
 FirebaseFirestore db = FirebaseFirestore.instance;
 FirebaseAuth auth = FirebaseAuth.instance;
@@ -175,6 +175,28 @@ Future<List<Map<String, dynamic>>> firebase_GetAllDocuments(String coll) async {
   return allThings;
 }
 
+// GET ALL LIMITED
+Future<List<Map<String, dynamic>>> firebase_GetAllDocumentsLimited(
+    String coll, int limit) async {
+  try {
+    // Fetch all documents from the specified collection with a limit
+    QuerySnapshot querySnapshot = await db.collection(coll).limit(limit).get();
+
+    // Map the documents to a list of maps with document ID included
+    List<Map<String, dynamic>> allThings = querySnapshot.docs.map((doc) {
+      return {
+        'id': doc.id,
+        ...doc.data() as Map<String, dynamic>,
+      };
+    }).toList();
+
+    return allThings;
+  } catch (error) {
+    print('Error: $error');
+    return [];
+  }
+}
+
 //GET ONE
 Future<Map<String, dynamic>> firebase_GetDocument(
     String coll, String documentId) async {
@@ -249,6 +271,73 @@ Future<List<Map<String, dynamic>>> firebase_GetAllDocumentsQueried(
   }
 }
 
+// GET ALL QUERIED WITH LIMIT
+Future<List<Map<String, dynamic>>> firebase_GetAllDocumentsQueriedLimited(
+    String coll, List<Map<String, dynamic>> queries, int limit) async {
+  try {
+    Query query = db.collection(coll);
+
+    // Apply the queries
+    for (var queryItem in queries) {
+      String field = queryItem['field'];
+      String operator = queryItem['operator'];
+      dynamic value = queryItem['value'];
+
+      switch (operator) {
+        case '==':
+          query = query.where(field, isEqualTo: value);
+          break;
+        case '!=':
+          query = query.where(field, isNotEqualTo: value);
+          break;
+        case '<':
+          query = query.where(field, isLessThan: value);
+          break;
+        case '<=':
+          query = query.where(field, isLessThanOrEqualTo: value);
+          break;
+        case '>':
+          query = query.where(field, isGreaterThan: value);
+          break;
+        case '>=':
+          query = query.where(field, isGreaterThanOrEqualTo: value);
+          break;
+        case 'array-contains':
+          query = query.where(field, arrayContains: value);
+          break;
+        case 'array-contains-any':
+          query = query.where(field, arrayContainsAny: value);
+          break;
+        case 'in':
+          query = query.where(field, whereIn: value);
+          break;
+        case 'not-in':
+          query = query.where(field, whereNotIn: value);
+          break;
+        default:
+          throw ArgumentError('Invalid operator: $operator');
+      }
+    }
+
+    // Apply the limit
+    query = query.limit(limit);
+
+    // Fetch the documents
+    QuerySnapshot querySnapshot = await query.get();
+    List<Map<String, dynamic>> allThings = querySnapshot.docs.map((doc) {
+      return {
+        'id': doc.id,
+        ...doc.data() as Map<String, dynamic>,
+      };
+    }).toList();
+
+    return allThings;
+  } catch (error) {
+    print('Error: $error');
+    return [];
+  }
+}
+
 //GET ALL ORDERED
 Future<List<Map<String, dynamic>>> firebase_GetAllDocumentsOrdered(
     String coll, String orderField, String direction) async {
@@ -256,6 +345,31 @@ Future<List<Map<String, dynamic>>> firebase_GetAllDocumentsOrdered(
     Query query = db
         .collection(coll)
         .orderBy(orderField, descending: direction == 'desc');
+    QuerySnapshot querySnapshot = await query.get();
+
+    List<Map<String, dynamic>> allThings = querySnapshot.docs.map((doc) {
+      return {
+        'id': doc.id,
+        ...doc.data() as Map<String, dynamic>,
+      };
+    }).toList();
+
+    return allThings;
+  } catch (error) {
+    print('Error: $error');
+    return [];
+  }
+}
+
+// GET ALL ORDERED LIMITED
+Future<List<Map<String, dynamic>>> firebase_GetAllDocumentsOrderedLimited(
+    String coll, String orderField, String direction, int limit) async {
+  try {
+    Query query = db
+        .collection(coll)
+        .orderBy(orderField, descending: direction == 'desc')
+        .limit(limit);
+
     QuerySnapshot querySnapshot = await query.get();
 
     List<Map<String, dynamic>> allThings = querySnapshot.docs.map((doc) {
@@ -344,6 +458,83 @@ Future<List<Map<String, dynamic>>> firebase_GetAllDocumentsOrderedQueried(
   }
 }
 
+// GET ALL QUERIED ORDERED LIMITED
+Future<List<Map<String, dynamic>>>
+    firebase_GetAllDocumentsOrderedQueriedLimited(
+        String coll,
+        List<Map<String, dynamic>> queries,
+        String orderField,
+        String direction,
+        int limit) async {
+  try {
+    Query query = db.collection(coll);
+
+    // Apply the queries
+    for (var queryItem in queries) {
+      String field = queryItem['field'];
+      String operator = queryItem['operator'];
+      dynamic value = queryItem['value'];
+
+      switch (operator) {
+        case '==':
+          query = query.where(field, isEqualTo: value);
+          break;
+        case '!=':
+          query = query.where(field, isNotEqualTo: value);
+          break;
+        case '<':
+          query = query.where(field, isLessThan: value);
+          break;
+        case '<=':
+          query = query.where(field, isLessThanOrEqualTo: value);
+          break;
+        case '>':
+          query = query.where(field, isGreaterThan: value);
+          break;
+        case '>=':
+          query = query.where(field, isGreaterThanOrEqualTo: value);
+          break;
+        case 'array-contains':
+          query = query.where(field, arrayContains: value);
+          break;
+        case 'array-contains-any':
+          query = query.where(field, arrayContainsAny: value);
+          break;
+        case 'in':
+          query = query.where(field, whereIn: value);
+          break;
+        case 'not-in':
+          query = query.where(field, whereNotIn: value);
+          break;
+        default:
+          throw ArgumentError('Invalid operator: $operator');
+      }
+    }
+
+    // Apply ordering
+    query = query.orderBy(orderField, descending: direction == 'desc');
+
+    // Apply the limit
+    query = query.limit(limit);
+
+    // Fetch the documents
+    QuerySnapshot querySnapshot = await query.get();
+
+    // Map the documents to a list of maps
+    List<Map<String, dynamic>> allThings = querySnapshot.docs.map((doc) {
+      return {
+        'id': doc.id,
+        ...doc.data() as Map<String, dynamic>,
+      };
+    }).toList();
+
+    return allThings;
+  } catch (error) {
+    print('Error: $error');
+    return [];
+  }
+}
+
 //GET ALL LISTENER
 Stream<List<Map<String, dynamic>>> firebase_GetAllDocumentsListener(
     String coll,
@@ -377,6 +568,103 @@ Stream<List<Map<String, dynamic>>> firebase_GetAllDocumentsListener(
 // .listen((documents) { print(documents);});
     return documents;
   });
+}
+
+// GET ALL LISTENER QUERIED ORDERED LIMITED
+Stream<List<Map<String, dynamic>>>
+    firebase_GetAllDocumentsQueriedOrderedLimitedListener(
+        String coll,
+        List<Map<String, dynamic>> queries,
+        String orderField,
+        String direction,
+        int limit,
+        Function(Map<String, dynamic>) createFunc,
+        Function(Map<String, dynamic>) updateFunc,
+        Function(Map<String, dynamic>) removeFunc) {
+  try {
+    // Build the initial query
+    Query query = FirebaseFirestore.instance.collection(coll);
+
+    // Apply the queries
+    for (var queryItem in queries) {
+      String field = queryItem['field'];
+      String operator = queryItem['operator'];
+      dynamic value = queryItem['value'];
+
+      switch (operator) {
+        case '==':
+          query = query.where(field, isEqualTo: value);
+          break;
+        case '!=':
+          query = query.where(field, isNotEqualTo: value);
+          break;
+        case '<':
+          query = query.where(field, isLessThan: value);
+          break;
+        case '<=':
+          query = query.where(field, isLessThanOrEqualTo: value);
+          break;
+        case '>':
+          query = query.where(field, isGreaterThan: value);
+          break;
+        case '>=':
+          query = query.where(field, isGreaterThanOrEqualTo: value);
+          break;
+        case 'array-contains':
+          query = query.where(field, arrayContains: value);
+          break;
+        case 'array-contains-any':
+          query = query.where(field, arrayContainsAny: value);
+          break;
+        case 'in':
+          query = query.where(field, whereIn: value);
+          break;
+        case 'not-in':
+          query = query.where(field, whereNotIn: value);
+          break;
+        default:
+          throw ArgumentError('Invalid operator: $operator');
+      }
+    }
+
+    // Apply ordering
+    query = query.orderBy(orderField, descending: direction == 'desc');
+
+    // Apply the limit
+    query = query.limit(limit);
+
+    // Listen to real-time updates
+    return query.snapshots().map((querySnapshot) {
+      List<Map<String, dynamic>> documents = [];
+
+      for (var change in querySnapshot.docChanges) {
+        if (change.type == DocumentChangeType.added) {
+          print("Document added: ${change.doc.data()}");
+          createFunc(change.doc.data() as Map<String, dynamic>);
+        } else if (change.type == DocumentChangeType.modified) {
+          print("Document modified: ${change.doc.data()}");
+          updateFunc(change.doc.data() as Map<String, dynamic>);
+        } else if (change.type == DocumentChangeType.removed) {
+          print("Document removed: ${change.doc.data()}");
+          removeFunc(change.doc.data() as Map<String, dynamic>);
+        }
+      }
+
+      // Map the documents to a list of maps
+      querySnapshot.docs.forEach((doc) {
+        documents.add({
+          'id': doc.id,
+          ...doc.data() as Map<String, dynamic>,
+        });
+      });
+
+      return documents;
+    });
+  } catch (error) {
+    print('Error: $error');
+    // Return an empty stream on error
+    return Stream.empty();
+  }
 }
 
 //STORAGE

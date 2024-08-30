@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:iic_app_template_flutter/COMPONENTS/blur_view.dart';
-import 'package:iic_app_template_flutter/COMPONENTS/text_view.dart';
+import 'package:edmusica_teachers/COMPONENTS/blur_view.dart';
+import 'package:edmusica_teachers/COMPONENTS/text_view.dart';
 
 class AlertView extends StatefulWidget {
   final String title;

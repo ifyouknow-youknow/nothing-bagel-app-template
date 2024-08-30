@@ -1,11 +1,11 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:iic_app_template_flutter/MODELS/DATAMASTER/datamaster.dart';
-import 'package:iic_app_template_flutter/MODELS/firebase.dart';
-import 'package:iic_app_template_flutter/VIEWS/Login.dart';
-import 'package:iic_app_template_flutter/VIEWS/playground.dart';
-import 'package:iic_app_template_flutter/firebase_options.dart';
+import 'package:edmusica_teachers/MODELS/DATAMASTER/datamaster.dart';
+import 'package:edmusica_teachers/MODELS/firebase.dart';
+import 'package:edmusica_teachers/VIEWS/Login.dart';
+import 'package:edmusica_teachers/VIEWS/playground.dart';
+import 'package:edmusica_teachers/firebase_options.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

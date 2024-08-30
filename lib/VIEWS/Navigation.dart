@@ -1,14 +1,19 @@
+import 'package:edmusica_teachers/VIEWS/Events.dart';
 import 'package:flutter/material.dart';
-import 'package:iic_app_template_flutter/COMPONENTS/button_view.dart';
-import 'package:iic_app_template_flutter/COMPONENTS/image_view.dart';
-import 'package:iic_app_template_flutter/COMPONENTS/main_view.dart';
-import 'package:iic_app_template_flutter/COMPONENTS/padding_view.dart';
-import 'package:iic_app_template_flutter/COMPONENTS/text_view.dart';
-import 'package:iic_app_template_flutter/FUNCTIONS/nav.dart';
-import 'package:iic_app_template_flutter/MODELS/DATAMASTER/datamaster.dart';
-import 'package:iic_app_template_flutter/MODELS/firebase.dart';
-import 'package:iic_app_template_flutter/MODELS/screen.dart';
-import 'package:iic_app_template_flutter/VIEWS/Login.dart';
+import 'package:edmusica_teachers/COMPONENTS/border_view.dart';
+import 'package:edmusica_teachers/COMPONENTS/button_view.dart';
+import 'package:edmusica_teachers/COMPONENTS/image_view.dart';
+import 'package:edmusica_teachers/COMPONENTS/main_view.dart';
+import 'package:edmusica_teachers/COMPONENTS/padding_view.dart';
+import 'package:edmusica_teachers/COMPONENTS/text_view.dart';
+import 'package:edmusica_teachers/FUNCTIONS/nav.dart';
+import 'package:edmusica_teachers/MODELS/DATAMASTER/datamaster.dart';
+import 'package:edmusica_teachers/MODELS/firebase.dart';
+import 'package:edmusica_teachers/MODELS/screen.dart';
+import 'package:edmusica_teachers/VIEWS/Chat.dart';
+import 'package:edmusica_teachers/VIEWS/Dashboard.dart';
+import 'package:edmusica_teachers/VIEWS/Guide.dart';
+import 'package:edmusica_teachers/VIEWS/Login.dart';
 
 class Navigation extends StatefulWidget {
   final DataMaster dm;
@@ -55,8 +60,123 @@ class _NavigationState extends State<Navigation> {
           ],
         ),
       ),
-      const Expanded(
-        child: Column(),
+      Expanded(
+        child: Column(
+          children: [
+            // DASHBOARD
+            SizedBox(
+              width: double.infinity,
+              child: BorderView(
+                bottom: true,
+                bottomColor: Colors.black54,
+                child: ButtonView(
+                    child: const PaddingView(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          TextView(
+                            text: 'Dashboard',
+                            size: 24,
+                          ),
+                          Icon(
+                            Icons.chevron_right_rounded,
+                            size: 38,
+                            color: Colors.black,
+                          )
+                        ],
+                      ),
+                    ),
+                    onPress: () {
+                      nav_PushAndRemove(context, Dashboard(dm: widget.dm));
+                    }),
+              ),
+            ),
+            //  CHAT
+            SizedBox(
+              width: double.infinity,
+              child: BorderView(
+                bottom: true,
+                bottomColor: Colors.black54,
+                child: ButtonView(
+                    child: const PaddingView(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          TextView(
+                            text: 'Chat',
+                            size: 24,
+                          ),
+                          Icon(
+                            Icons.chevron_right_rounded,
+                            size: 38,
+                            color: Colors.black,
+                          )
+                        ],
+                      ),
+                    ),
+                    onPress: () {
+                      nav_PushAndRemove(context, Chat(dm: widget.dm));
+                    }),
+              ),
+            ),
+            //  EVENTS
+            SizedBox(
+              width: double.infinity,
+              child: BorderView(
+                bottom: true,
+                bottomColor: Colors.black54,
+                child: ButtonView(
+                    child: const PaddingView(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          TextView(
+                            text: 'Events',
+                            size: 24,
+                          ),
+                          Icon(
+                            Icons.chevron_right_rounded,
+                            size: 38,
+                            color: Colors.black,
+                          )
+                        ],
+                      ),
+                    ),
+                    onPress: () {
+                      nav_PushAndRemove(context, Events(dm: widget.dm));
+                    }),
+              ),
+            ),
+            //  GUIDE
+            SizedBox(
+              width: double.infinity,
+              child: BorderView(
+                bottom: true,
+                bottomColor: Colors.black54,
+                child: ButtonView(
+                    child: const PaddingView(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          TextView(
+                            text: 'Guide',
+                            size: 24,
+                          ),
+                          Icon(
+                            Icons.chevron_right_rounded,
+                            size: 38,
+                            color: Colors.black,
+                          )
+                        ],
+                      ),
+                    ),
+                    onPress: () {
+                      nav_PushAndRemove(context, Guide(dm: widget.dm));
+                    }),
+              ),
+            )
+          ],
+        ),
       ),
       PaddingView(
         child: ButtonView(

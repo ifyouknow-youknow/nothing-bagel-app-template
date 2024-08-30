@@ -1,15 +1,15 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'package:iic_app_template_flutter/COMPONENTS/blur_view.dart';
-import 'package:iic_app_template_flutter/COMPONENTS/text_view.dart';
+import 'package:edmusica_teachers/COMPONENTS/blur_view.dart';
+import 'package:edmusica_teachers/COMPONENTS/text_view.dart';
 
 class LoadingView extends StatelessWidget {
   const LoadingView({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return const SizedBox.expand(
+    return Positioned.fill(
       child: BlurView(
         intensity: 3,
         color: Color.fromARGB(183, 20, 19, 19),

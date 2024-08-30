@@ -1,4 +1,4 @@
-package com.iicdev.FlutterAppTemplate
+package com.iicdev.EdmusicaTeachersApp
 
 import io.flutter.embedding.android.FlutterActivity
 

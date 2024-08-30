@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:iic_app_template_flutter/COMPONENTS/alert_view.dart';
-import 'package:iic_app_template_flutter/COMPONENTS/button_view.dart';
-import 'package:iic_app_template_flutter/COMPONENTS/loading_view.dart';
-import 'package:iic_app_template_flutter/COMPONENTS/text_view.dart';
-import 'package:iic_app_template_flutter/MODELS/DATAMASTER/datamaster.dart';
+import 'package:edmusica_teachers/COMPONENTS/alert_view.dart';
+import 'package:edmusica_teachers/COMPONENTS/button_view.dart';
+import 'package:edmusica_teachers/COMPONENTS/loading_view.dart';
+import 'package:edmusica_teachers/COMPONENTS/text_view.dart';
+import 'package:edmusica_teachers/MODELS/DATAMASTER/datamaster.dart';
+import 'package:edmusica_teachers/MODELS/screen.dart';
 
 class MainView extends StatefulWidget {
   final DataMaster dm;
@@ -28,13 +29,16 @@ class _MainViewState extends State<MainView> {
       backgroundColor: widget.backgroundColor,
       body: Stack(
         children: [
-          Column(
-            children: [
-              const SizedBox(
-                height: 46,
-              ),
-              ...widget.children,
-            ],
+          SizedBox(
+            height: getHeight(context),
+            child: Column(
+              children: [
+                const SizedBox(
+                  height: 46,
+                ),
+                ...widget.children,
+              ],
+            ),
           ),
 
           // ABSOLUTE

@@ -1,5 +1,5 @@
-import 'package:iic_app_template_flutter/COMPONENTS/button_view.dart';
-import 'package:iic_app_template_flutter/COMPONENTS/text_view.dart';
+import 'package:edmusica_teachers/COMPONENTS/button_view.dart';
+import 'package:edmusica_teachers/COMPONENTS/text_view.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -149,7 +149,7 @@ class _TextfieldViewState extends State<TextfieldView> {
                     child: TextView(
                       text: 'done',
                       color: widget.color,
-                      size: 20,
+                      size: 16,
                       // font: 'inconsolata',
                       weight: FontWeight.w400,
                     ),
