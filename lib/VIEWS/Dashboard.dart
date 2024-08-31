@@ -1,4 +1,5 @@
 import 'package:edmusica_teachers/VIEWS/Events.dart';
+import 'package:edmusica_teachers/VIEWS/Timecard.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:edmusica_teachers/COMPONENTS/button_view.dart';
@@ -230,6 +231,7 @@ class _DashboardState extends State<Dashboard> {
                             ),
                             onPress: () {
                               // GO TO TIMECARD PAGE
+                              nav_Push(context, Timecard(dm: widget.dm));
                             },
                           ),
                         ),

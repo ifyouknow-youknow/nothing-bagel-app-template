@@ -1,4 +1,5 @@
 import 'package:edmusica_teachers/VIEWS/Events.dart';
+import 'package:edmusica_teachers/VIEWS/Timecard.dart';
 import 'package:flutter/material.dart';
 import 'package:edmusica_teachers/COMPONENTS/border_view.dart';
 import 'package:edmusica_teachers/COMPONENTS/button_view.dart';
@@ -91,6 +92,35 @@ class _NavigationState extends State<Navigation> {
                     }),
               ),
             ),
+            //  TIMECARD
+            SizedBox(
+              width: double.infinity,
+              child: BorderView(
+                bottom: true,
+                bottomColor: Colors.black54,
+                child: ButtonView(
+                    child: const PaddingView(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          TextView(
+                            text: 'Timecard',
+                            size: 24,
+                          ),
+                          Icon(
+                            Icons.chevron_right_rounded,
+                            size: 38,
+                            color: Colors.black,
+                          )
+                        ],
+                      ),
+                    ),
+                    onPress: () {
+                      nav_PushAndRemove(context, Timecard(dm: widget.dm));
+                    }),
+              ),
+            ),
+
             //  CHAT
             SizedBox(
               width: double.infinity,
