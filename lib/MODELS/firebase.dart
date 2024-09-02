@@ -6,8 +6,8 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:edmusica_teachers/FUNCTIONS/misc.dart';
-import 'package:edmusica_teachers/FUNCTIONS/server.dart';
+import 'package:edm_teachers_app/FUNCTIONS/misc.dart';
+import 'package:edm_teachers_app/FUNCTIONS/server.dart';
 
 FirebaseFirestore db = FirebaseFirestore.instance;
 FirebaseAuth auth = FirebaseAuth.instance;
@@ -696,7 +696,7 @@ Future<bool> storage_UploadMedia(String path, File file) async {
 // MESSAGING
 // SET UP
 
-Future<void> messaging_SetUp() async {
+Future<String> messaging_SetUp() async {
   await messaging.requestPermission();
   fetchAPNSToken();
   // Fetch the device token
@@ -720,6 +720,7 @@ Future<void> messaging_SetUp() async {
       // Handle notification tap
     }
   });
+  return token!;
 }
 
 Future<void> messaging_IosSetUp() async {

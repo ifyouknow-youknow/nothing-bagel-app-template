@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:http/http.dart' as http;
-import 'package:edmusica_teachers/MODELS/constants.dart';
+import 'package:edm_teachers_app/MODELS/constants.dart';
 
 Future<dynamic> server_POST(String endpoint, Map<String, dynamic> data) async {
   try {

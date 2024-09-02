@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:edmusica_teachers/FUNCTIONS/colors.dart'; // Ensure this file has the `hexToColor` function.
+import 'package:edm_teachers_app/FUNCTIONS/colors.dart'; // Ensure this file has the `hexToColor` function.
 
 class ButtonView extends StatefulWidget {
   final Widget child;

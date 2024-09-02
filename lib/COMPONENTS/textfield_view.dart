@@ -1,5 +1,5 @@
-import 'package:edmusica_teachers/COMPONENTS/button_view.dart';
-import 'package:edmusica_teachers/COMPONENTS/text_view.dart';
+import 'package:edm_teachers_app/COMPONENTS/button_view.dart';
+import 'package:edm_teachers_app/COMPONENTS/text_view.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 

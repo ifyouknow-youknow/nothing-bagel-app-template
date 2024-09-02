@@ -1,19 +1,19 @@
-import 'package:edmusica_teachers/COMPONENTS/button_view.dart';
-import 'package:edmusica_teachers/COMPONENTS/calendar_view.dart';
-import 'package:edmusica_teachers/COMPONENTS/future_view.dart';
-import 'package:edmusica_teachers/COMPONENTS/main_view.dart';
-import 'package:edmusica_teachers/COMPONENTS/padding_view.dart';
-import 'package:edmusica_teachers/COMPONENTS/roundedcorners_view.dart';
-import 'package:edmusica_teachers/COMPONENTS/text_view.dart';
-import 'package:edmusica_teachers/FUNCTIONS/colors.dart';
-import 'package:edmusica_teachers/FUNCTIONS/date.dart';
-import 'package:edmusica_teachers/FUNCTIONS/nav.dart';
-import 'package:edmusica_teachers/MODELS/DATAMASTER/datamaster.dart';
-import 'package:edmusica_teachers/MODELS/constants.dart';
-import 'package:edmusica_teachers/MODELS/firebase.dart';
-import 'package:edmusica_teachers/MODELS/screen.dart';
-import 'package:edmusica_teachers/VIEWS/EventsByDay.dart';
-import 'package:edmusica_teachers/VIEWS/Navigation.dart';
+import 'package:edm_teachers_app/COMPONENTS/button_view.dart';
+import 'package:edm_teachers_app/COMPONENTS/calendar_view.dart';
+import 'package:edm_teachers_app/COMPONENTS/future_view.dart';
+import 'package:edm_teachers_app/COMPONENTS/main_view.dart';
+import 'package:edm_teachers_app/COMPONENTS/padding_view.dart';
+import 'package:edm_teachers_app/COMPONENTS/roundedcorners_view.dart';
+import 'package:edm_teachers_app/COMPONENTS/text_view.dart';
+import 'package:edm_teachers_app/FUNCTIONS/colors.dart';
+import 'package:edm_teachers_app/FUNCTIONS/date.dart';
+import 'package:edm_teachers_app/FUNCTIONS/nav.dart';
+import 'package:edm_teachers_app/MODELS/DATAMASTER/datamaster.dart';
+import 'package:edm_teachers_app/MODELS/constants.dart';
+import 'package:edm_teachers_app/MODELS/firebase.dart';
+import 'package:edm_teachers_app/MODELS/screen.dart';
+import 'package:edm_teachers_app/VIEWS/EventsByDay.dart';
+import 'package:edm_teachers_app/VIEWS/Navigation.dart';
 import 'package:flutter/material.dart';
 
 class Events extends StatefulWidget {
@@ -35,10 +35,17 @@ class _EventsState extends State<Events> {
             'field': 'districtId',
             'operator': '==',
             'value': widget.dm.user['districtId']
+          },
+          {
+            'field': 'date',
+            'operator': '>=',
+            'value': DateTime(DateTime.now().year, DateTime.now().month,
+                    DateTime.now().day)
+                .millisecondsSinceEpoch
           }
         ],
         'date',
-        'desc',
+        'asc',
         1);
     return docs;
   }
@@ -93,120 +100,133 @@ class _EventsState extends State<Events> {
 
   @override
   Widget build(BuildContext context) {
-    return MainView(dm: widget.dm, children: [
-      // TOP
-      PaddingView(
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            TextView(
-              text: 'Events',
-              size: 20,
-            ),
-            ButtonView(
-                child: const Icon(
-                  Icons.menu,
-                  size: 36,
-                ),
-                onPress: () {
-                  nav_Push(context, Navigation(dm: widget.dm));
-                })
-          ],
-        ),
-      ),
-
-      //
-      SizedBox(
-        width: getWidth(context),
-        child: PaddingView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+    return MainView(
+      dm: widget.dm,
+      children: [
+        // TOP
+        PaddingView(
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               TextView(
-                text: 'Upcoming Event',
+                text: 'Events',
                 size: 20,
-                weight: FontWeight.w600,
               ),
-              SizedBox(
-                height: 15,
-              ),
-              FutureView(
-                future: _fetchLatestEvent(),
-                childBuilder: (data) {
-                  return Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      RoundedCornersView(
-                        topLeft: 100,
-                        topRight: 100,
-                        bottomLeft: 100,
-                        bottomRight: 100,
-                        backgroundColor: data.first['type'] == 'Concert'
-                            ? hexToColor("#C06FAC")
-                            : Colors.black12,
-                        child: PaddingView(
-                          paddingTop: 8,
-                          paddingBottom: 8,
-                          paddingLeft: 18,
-                          paddingRight: 18,
-                          child: TextView(
-                            text: data.first['type'],
-                            weight: FontWeight.w600,
-                            size: 18,
-                            color: Colors.white,
-                          ),
-                        ),
-                      ),
-                      SizedBox(
-                        height: 6,
-                      ),
-                      TextView(
-                        text: data.first['title'],
-                        size: 20,
-                        weight: FontWeight.w500,
-                      ),
-                      SizedBox(
-                        height: 6,
-                      ),
-                      TextView(
-                        text: data.first['details'],
-                        size: 16,
-                      ),
-                      SizedBox(
-                        height: 6,
-                      ),
-                      TextView(
-                        text: formatLongDate(
-                            DateTime.fromMillisecondsSinceEpoch(
-                                data.first['date'])),
-                        size: 18,
-                        weight: FontWeight.w600,
-                      ),
-                    ],
-                  );
-                },
-                emptyWidget: PaddingView(
-                  child: Center(
-                    child: TextView(
-                      text: 'No events posted yet.',
-                    ),
+              ButtonView(
+                  child: const Icon(
+                    Icons.menu,
+                    size: 36,
                   ),
-                ),
-              ),
+                  onPress: () {
+                    nav_Push(context, Navigation(dm: widget.dm));
+                  })
             ],
           ),
         ),
-      ),
-      Divider(),
-      // MAIN
-      CalendarView(
-          year: DateTime.now().year,
-          thisMonth: true,
-          highlightedDates: _eventDates,
-          selectedColor: hexToColor("#8CC541"),
-          onTapDate: (date) {
-            nav_Push(context, EventsByDay(dm: widget.dm, day: date));
-          }),
-    ]);
+
+        //
+        Flexible(
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                SizedBox(
+                  width: getWidth(context),
+                  child: PaddingView(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        TextView(
+                          text: 'Upcoming Event',
+                          size: 20,
+                          weight: FontWeight.w600,
+                        ),
+                        SizedBox(
+                          height: 15,
+                        ),
+                        FutureView(
+                          future: _fetchLatestEvent(),
+                          childBuilder: (data) {
+                            return Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                RoundedCornersView(
+                                  topLeft: 100,
+                                  topRight: 100,
+                                  bottomLeft: 100,
+                                  bottomRight: 100,
+                                  backgroundColor:
+                                      data.first['type'] == 'Concert'
+                                          ? hexToColor("#C06FAC")
+                                          : Colors.black12,
+                                  child: PaddingView(
+                                    paddingTop: 8,
+                                    paddingBottom: 8,
+                                    paddingLeft: 18,
+                                    paddingRight: 18,
+                                    child: TextView(
+                                      text: data.first['type'],
+                                      weight: FontWeight.w600,
+                                      size: 18,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: 6,
+                                ),
+                                TextView(
+                                  text: data.first['title'],
+                                  size: 20,
+                                  weight: FontWeight.w500,
+                                ),
+                                SizedBox(
+                                  height: 6,
+                                ),
+                                TextView(
+                                  text: data.first['details'],
+                                  size: 16,
+                                ),
+                                SizedBox(
+                                  height: 6,
+                                ),
+                                TextView(
+                                  text: formatLongDate(
+                                      DateTime.fromMillisecondsSinceEpoch(
+                                          data.first['date'])),
+                                  size: 18,
+                                  weight: FontWeight.w600,
+                                ),
+                              ],
+                            );
+                          },
+                          emptyWidget: PaddingView(
+                            child: Center(
+                              child: TextView(
+                                text: 'No upcoming event.',
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                Divider(),
+                // MAIN
+                CalendarView(
+                  year: DateTime.now().year,
+                  thisMonth: true,
+                  highlightedDates: _eventDates,
+                  selectedColor: hexToColor("#8CC541"),
+                  onTapDate: (date) {
+                    nav_Push(context, EventsByDay(dm: widget.dm, day: date));
+                  },
+                ),
+              ],
+            ),
+          ),
+        )
+      ],
+    );
   }
 }

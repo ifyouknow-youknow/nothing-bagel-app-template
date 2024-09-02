@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:edmusica_teachers/COMPONENTS/alert_view.dart';
-import 'package:edmusica_teachers/COMPONENTS/button_view.dart';
-import 'package:edmusica_teachers/COMPONENTS/loading_view.dart';
-import 'package:edmusica_teachers/COMPONENTS/text_view.dart';
-import 'package:edmusica_teachers/MODELS/DATAMASTER/datamaster.dart';
-import 'package:edmusica_teachers/MODELS/screen.dart';
+import 'package:edm_teachers_app/COMPONENTS/alert_view.dart';
+import 'package:edm_teachers_app/COMPONENTS/button_view.dart';
+import 'package:edm_teachers_app/COMPONENTS/loading_view.dart';
+import 'package:edm_teachers_app/COMPONENTS/text_view.dart';
+import 'package:edm_teachers_app/MODELS/DATAMASTER/datamaster.dart';
+import 'package:edm_teachers_app/MODELS/screen.dart';
 
 class MainView extends StatefulWidget {
   final DataMaster dm;

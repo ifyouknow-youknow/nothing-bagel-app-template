@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:edmusica_teachers/FUNCTIONS/colors.dart';
+import 'package:edm_teachers_app/FUNCTIONS/colors.dart';
 
 class SwitchView extends StatefulWidget {
   final ValueChanged<bool> onChange;

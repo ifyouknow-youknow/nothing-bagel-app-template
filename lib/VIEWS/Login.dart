@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:edmusica_teachers/COMPONENTS/button_view.dart';
-import 'package:edmusica_teachers/COMPONENTS/image_view.dart';
-import 'package:edmusica_teachers/COMPONENTS/main_view.dart';
-import 'package:edmusica_teachers/COMPONENTS/padding_view.dart';
-import 'package:edmusica_teachers/COMPONENTS/text_view.dart';
-import 'package:edmusica_teachers/COMPONENTS/textfield_view.dart';
-import 'package:edmusica_teachers/FUNCTIONS/colors.dart';
-import 'package:edmusica_teachers/FUNCTIONS/location.dart';
-import 'package:edmusica_teachers/FUNCTIONS/nav.dart';
-import 'package:edmusica_teachers/MODELS/DATAMASTER/datamaster.dart';
-import 'package:edmusica_teachers/MODELS/firebase.dart';
-import 'package:edmusica_teachers/MODELS/screen.dart';
-import 'package:edmusica_teachers/VIEWS/Dashboard.dart';
-import 'package:edmusica_teachers/VIEWS/Signup.dart';
+import 'package:edm_teachers_app/COMPONENTS/button_view.dart';
+import 'package:edm_teachers_app/COMPONENTS/image_view.dart';
+import 'package:edm_teachers_app/COMPONENTS/main_view.dart';
+import 'package:edm_teachers_app/COMPONENTS/padding_view.dart';
+import 'package:edm_teachers_app/COMPONENTS/text_view.dart';
+import 'package:edm_teachers_app/COMPONENTS/textfield_view.dart';
+import 'package:edm_teachers_app/FUNCTIONS/colors.dart';
+import 'package:edm_teachers_app/FUNCTIONS/location.dart';
+import 'package:edm_teachers_app/FUNCTIONS/nav.dart';
+import 'package:edm_teachers_app/MODELS/DATAMASTER/datamaster.dart';
+import 'package:edm_teachers_app/MODELS/firebase.dart';
+import 'package:edm_teachers_app/MODELS/screen.dart';
+import 'package:edm_teachers_app/VIEWS/Dashboard.dart';
+import 'package:edm_teachers_app/VIEWS/Signup.dart';
 
 class Login extends StatefulWidget {
   final DataMaster dm;
@@ -46,9 +46,13 @@ class _LoginState extends State<Login> {
     final _ = await auth_SignIn(email, password);
     final signedIn = await widget.dm.checkUser();
     if (signedIn) {
-      widget.dm.setToggleLoading(false);
       nav_PushAndRemove(context, Dashboard(dm: widget.dm));
+    } else {
+      setState(() {
+        widget.dm.alertSomethingWrong();
+      });
     }
+    widget.dm.setToggleLoading(false);
   }
 
   void onForgotPassword() async {
@@ -79,10 +83,6 @@ class _LoginState extends State<Login> {
     setState(() {
       widget.dm.setToggleLoading(true);
     });
-    final loc = await getLocation();
-    if (loc != null) {
-      widget.dm.setMyLocation(LatLng(loc.latitude, loc.longitude));
-    }
 
     final success = await widget.dm.checkUser();
     if (success) {
@@ -204,7 +204,6 @@ class _LoginState extends State<Login> {
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     ButtonView(
                         child: const TextView(

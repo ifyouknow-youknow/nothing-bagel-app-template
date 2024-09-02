@@ -1,20 +1,21 @@
-import 'package:edmusica_teachers/VIEWS/Events.dart';
-import 'package:edmusica_teachers/VIEWS/Timecard.dart';
+import 'package:edm_teachers_app/VIEWS/Events.dart';
+import 'package:edm_teachers_app/VIEWS/Timecard.dart';
+import 'package:edm_teachers_app/VIEWS/Tracks.dart';
 import 'package:flutter/material.dart';
-import 'package:edmusica_teachers/COMPONENTS/border_view.dart';
-import 'package:edmusica_teachers/COMPONENTS/button_view.dart';
-import 'package:edmusica_teachers/COMPONENTS/image_view.dart';
-import 'package:edmusica_teachers/COMPONENTS/main_view.dart';
-import 'package:edmusica_teachers/COMPONENTS/padding_view.dart';
-import 'package:edmusica_teachers/COMPONENTS/text_view.dart';
-import 'package:edmusica_teachers/FUNCTIONS/nav.dart';
-import 'package:edmusica_teachers/MODELS/DATAMASTER/datamaster.dart';
-import 'package:edmusica_teachers/MODELS/firebase.dart';
-import 'package:edmusica_teachers/MODELS/screen.dart';
-import 'package:edmusica_teachers/VIEWS/Chat.dart';
-import 'package:edmusica_teachers/VIEWS/Dashboard.dart';
-import 'package:edmusica_teachers/VIEWS/Guide.dart';
-import 'package:edmusica_teachers/VIEWS/Login.dart';
+import 'package:edm_teachers_app/COMPONENTS/border_view.dart';
+import 'package:edm_teachers_app/COMPONENTS/button_view.dart';
+import 'package:edm_teachers_app/COMPONENTS/image_view.dart';
+import 'package:edm_teachers_app/COMPONENTS/main_view.dart';
+import 'package:edm_teachers_app/COMPONENTS/padding_view.dart';
+import 'package:edm_teachers_app/COMPONENTS/text_view.dart';
+import 'package:edm_teachers_app/FUNCTIONS/nav.dart';
+import 'package:edm_teachers_app/MODELS/DATAMASTER/datamaster.dart';
+import 'package:edm_teachers_app/MODELS/firebase.dart';
+import 'package:edm_teachers_app/MODELS/screen.dart';
+import 'package:edm_teachers_app/VIEWS/Chat.dart';
+import 'package:edm_teachers_app/VIEWS/Dashboard.dart';
+import 'package:edm_teachers_app/VIEWS/Guide.dart';
+import 'package:edm_teachers_app/VIEWS/Login.dart';
 
 class Navigation extends StatefulWidget {
   final DataMaster dm;
@@ -120,7 +121,34 @@ class _NavigationState extends State<Navigation> {
                     }),
               ),
             ),
-
+            //  TRACKS
+            SizedBox(
+              width: double.infinity,
+              child: BorderView(
+                bottom: true,
+                bottomColor: Colors.black54,
+                child: ButtonView(
+                    child: const PaddingView(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          TextView(
+                            text: 'Tracks',
+                            size: 24,
+                          ),
+                          Icon(
+                            Icons.chevron_right_rounded,
+                            size: 38,
+                            color: Colors.black,
+                          )
+                        ],
+                      ),
+                    ),
+                    onPress: () {
+                      nav_PushAndRemove(context, Tracks(dm: widget.dm));
+                    }),
+              ),
+            ),
             //  CHAT
             SizedBox(
               width: double.infinity,

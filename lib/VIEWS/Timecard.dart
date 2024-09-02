@@ -1,20 +1,20 @@
-import 'package:edmusica_teachers/COMPONENTS/border_view.dart';
-import 'package:edmusica_teachers/COMPONENTS/button_view.dart';
-import 'package:edmusica_teachers/COMPONENTS/calendar_view.dart';
-import 'package:edmusica_teachers/COMPONENTS/future_view.dart';
-import 'package:edmusica_teachers/COMPONENTS/main_view.dart';
-import 'package:edmusica_teachers/COMPONENTS/map_view.dart';
-import 'package:edmusica_teachers/COMPONENTS/padding_view.dart';
-import 'package:edmusica_teachers/COMPONENTS/roundedcorners_view.dart';
-import 'package:edmusica_teachers/COMPONENTS/text_view.dart';
-import 'package:edmusica_teachers/FUNCTIONS/colors.dart';
-import 'package:edmusica_teachers/FUNCTIONS/date.dart';
-import 'package:edmusica_teachers/FUNCTIONS/nav.dart';
-import 'package:edmusica_teachers/MODELS/DATAMASTER/datamaster.dart';
-import 'package:edmusica_teachers/MODELS/constants.dart';
-import 'package:edmusica_teachers/MODELS/firebase.dart';
-import 'package:edmusica_teachers/MODELS/screen.dart';
-import 'package:edmusica_teachers/VIEWS/Navigation.dart';
+import 'package:edm_teachers_app/COMPONENTS/border_view.dart';
+import 'package:edm_teachers_app/COMPONENTS/button_view.dart';
+import 'package:edm_teachers_app/COMPONENTS/calendar_view.dart';
+import 'package:edm_teachers_app/COMPONENTS/future_view.dart';
+import 'package:edm_teachers_app/COMPONENTS/main_view.dart';
+import 'package:edm_teachers_app/COMPONENTS/map_view.dart';
+import 'package:edm_teachers_app/COMPONENTS/padding_view.dart';
+import 'package:edm_teachers_app/COMPONENTS/roundedcorners_view.dart';
+import 'package:edm_teachers_app/COMPONENTS/text_view.dart';
+import 'package:edm_teachers_app/FUNCTIONS/colors.dart';
+import 'package:edm_teachers_app/FUNCTIONS/date.dart';
+import 'package:edm_teachers_app/FUNCTIONS/nav.dart';
+import 'package:edm_teachers_app/MODELS/DATAMASTER/datamaster.dart';
+import 'package:edm_teachers_app/MODELS/constants.dart';
+import 'package:edm_teachers_app/MODELS/firebase.dart';
+import 'package:edm_teachers_app/MODELS/screen.dart';
+import 'package:edm_teachers_app/VIEWS/Navigation.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
@@ -71,7 +71,7 @@ class _TimecardState extends State<Timecard> {
         ),
       ),
       // MAIN
-      Expanded(
+      Flexible(
         child: SingleChildScrollView(
           child: Column(
             children: [

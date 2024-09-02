@@ -1,8 +1,8 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'package:edmusica_teachers/COMPONENTS/blur_view.dart';
-import 'package:edmusica_teachers/COMPONENTS/text_view.dart';
+import 'package:edm_teachers_app/COMPONENTS/blur_view.dart';
+import 'package:edm_teachers_app/COMPONENTS/text_view.dart';
 
 class LoadingView extends StatelessWidget {
   const LoadingView({super.key});

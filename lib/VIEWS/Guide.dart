@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:edmusica_teachers/COMPONENTS/button_view.dart';
-import 'package:edmusica_teachers/COMPONENTS/checkbox_view.dart';
-import 'package:edmusica_teachers/COMPONENTS/main_view.dart';
-import 'package:edmusica_teachers/COMPONENTS/padding_view.dart';
-import 'package:edmusica_teachers/COMPONENTS/text_view.dart';
-import 'package:edmusica_teachers/FUNCTIONS/nav.dart';
-import 'package:edmusica_teachers/MODELS/DATAMASTER/datamaster.dart';
-import 'package:edmusica_teachers/MODELS/screen.dart';
-import 'package:edmusica_teachers/VIEWS/Navigation.dart';
+import 'package:edm_teachers_app/COMPONENTS/button_view.dart';
+import 'package:edm_teachers_app/COMPONENTS/checkbox_view.dart';
+import 'package:edm_teachers_app/COMPONENTS/main_view.dart';
+import 'package:edm_teachers_app/COMPONENTS/padding_view.dart';
+import 'package:edm_teachers_app/COMPONENTS/text_view.dart';
+import 'package:edm_teachers_app/FUNCTIONS/nav.dart';
+import 'package:edm_teachers_app/MODELS/DATAMASTER/datamaster.dart';
+import 'package:edm_teachers_app/MODELS/screen.dart';
+import 'package:edm_teachers_app/VIEWS/Navigation.dart';
 
 class Guide extends StatefulWidget {
   final DataMaster dm;

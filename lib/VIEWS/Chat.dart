@@ -1,21 +1,21 @@
 import 'package:flutter/material.dart';
-import 'package:edmusica_teachers/COMPONENTS/button_view.dart';
-import 'package:edmusica_teachers/COMPONENTS/future_view.dart';
-import 'package:edmusica_teachers/COMPONENTS/main_view.dart';
-import 'package:edmusica_teachers/COMPONENTS/padding_view.dart';
-import 'package:edmusica_teachers/COMPONENTS/roundedcorners_view.dart';
-import 'package:edmusica_teachers/COMPONENTS/text_view.dart';
-import 'package:edmusica_teachers/COMPONENTS/textfield_view.dart';
-import 'package:edmusica_teachers/FUNCTIONS/array.dart';
-import 'package:edmusica_teachers/FUNCTIONS/colors.dart';
-import 'package:edmusica_teachers/FUNCTIONS/date.dart';
-import 'package:edmusica_teachers/FUNCTIONS/misc.dart';
-import 'package:edmusica_teachers/FUNCTIONS/nav.dart';
-import 'package:edmusica_teachers/MODELS/DATAMASTER/datamaster.dart';
-import 'package:edmusica_teachers/MODELS/constants.dart';
-import 'package:edmusica_teachers/MODELS/firebase.dart';
-import 'package:edmusica_teachers/MODELS/screen.dart';
-import 'package:edmusica_teachers/VIEWS/Navigation.dart';
+import 'package:edm_teachers_app/COMPONENTS/button_view.dart';
+import 'package:edm_teachers_app/COMPONENTS/future_view.dart';
+import 'package:edm_teachers_app/COMPONENTS/main_view.dart';
+import 'package:edm_teachers_app/COMPONENTS/padding_view.dart';
+import 'package:edm_teachers_app/COMPONENTS/roundedcorners_view.dart';
+import 'package:edm_teachers_app/COMPONENTS/text_view.dart';
+import 'package:edm_teachers_app/COMPONENTS/textfield_view.dart';
+import 'package:edm_teachers_app/FUNCTIONS/array.dart';
+import 'package:edm_teachers_app/FUNCTIONS/colors.dart';
+import 'package:edm_teachers_app/FUNCTIONS/date.dart';
+import 'package:edm_teachers_app/FUNCTIONS/misc.dart';
+import 'package:edm_teachers_app/FUNCTIONS/nav.dart';
+import 'package:edm_teachers_app/MODELS/DATAMASTER/datamaster.dart';
+import 'package:edm_teachers_app/MODELS/constants.dart';
+import 'package:edm_teachers_app/MODELS/firebase.dart';
+import 'package:edm_teachers_app/MODELS/screen.dart';
+import 'package:edm_teachers_app/VIEWS/Navigation.dart';
 
 class Chat extends StatefulWidget {
   final DataMaster dm;
@@ -45,7 +45,9 @@ class _ChatState extends State<Chat> {
       80,
       (newDoc) {
         // Handle new document addition if needed
-        doc = newDoc;
+        if (newDoc['userId'] != widget.dm.user['id']) {
+          doc = newDoc;
+        }
       },
       (updatedDoc) {
         // Handle document updates if needed
@@ -77,6 +79,29 @@ class _ChatState extends State<Chat> {
           '${widget.dm.user['firstName']} ${widget.dm.user['lastName'][0]}',
       'districtId': widget.dm.user['districtId']
     });
+
+// GET ALL TOKENS
+    final teacherDocs =
+        await firebase_GetAllDocumentsQueried('${appName}_Teachers', [
+      {
+        'field': 'districtId',
+        'operator': "==",
+        'value': widget.dm.user['districtId']
+      }
+    ]);
+
+    final tokens = teacherDocs
+        .map((ting) => ting['token'])
+        .where((ting) => ting['token'] != widget.dm.user['token']);
+    print(tokens);
+
+    for (var token in tokens) {
+      await sendPushNotification(
+          token,
+          '${widget.dm.user['firstName']} ${widget.dm.user['lastName'][0]}',
+          _textController.text);
+    }
+
     setState(() {
       _textController.clear();
       widget.dm.setToggleLoading(false);

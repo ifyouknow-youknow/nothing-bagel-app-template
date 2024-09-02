@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:edmusica_teachers/COMPONENTS/text_view.dart';
-import 'package:edmusica_teachers/FUNCTIONS/colors.dart';
+import 'package:edm_teachers_app/COMPONENTS/text_view.dart';
+import 'package:edm_teachers_app/FUNCTIONS/colors.dart';
 
 class SegmentedView extends StatefulWidget {
   final List<String> options;
