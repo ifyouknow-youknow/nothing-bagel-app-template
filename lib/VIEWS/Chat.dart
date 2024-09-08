@@ -79,33 +79,35 @@ class _ChatState extends State<Chat> {
           '${widget.dm.user['firstName']} ${widget.dm.user['lastName'][0]}',
       'districtId': widget.dm.user['districtId']
     });
-
 // GET ALL TOKENS
-    final teacherDocs =
-        await firebase_GetAllDocumentsQueried('${appName}_Teachers', [
-      {
-        'field': 'districtId',
-        'operator': "==",
-        'value': widget.dm.user['districtId']
+    if (success) {
+      final teacherDocs =
+          await firebase_GetAllDocumentsQueried('${appName}_Teachers', [
+        {
+          'field': 'districtId',
+          'operator': "==",
+          'value': widget.dm.user['districtId']
+        }
+      ]);
+
+      final tokens = teacherDocs
+          .map((ting) => ting['token'])
+          .where((token) => token != widget.dm.user['token']);
+
+      if (tokens.isNotEmpty) {
+        for (var token in tokens) {
+          await sendPushNotification(
+              token,
+              '${widget.dm.user['firstName']} ${widget.dm.user['lastName'][0]}',
+              _textController.text);
+        }
       }
-    ]);
 
-    final tokens = teacherDocs
-        .map((ting) => ting['token'])
-        .where((ting) => ting['token'] != widget.dm.user['token']);
-    print(tokens);
-
-    for (var token in tokens) {
-      await sendPushNotification(
-          token,
-          '${widget.dm.user['firstName']} ${widget.dm.user['lastName'][0]}',
-          _textController.text);
+      setState(() {
+        _textController.clear();
+        widget.dm.setToggleLoading(false);
+      });
     }
-
-    setState(() {
-      _textController.clear();
-      widget.dm.setToggleLoading(false);
-    });
   }
 
   @override
@@ -153,6 +155,7 @@ class _ChatState extends State<Chat> {
               child: TextView(
                 text:
                     'This chat is restricted to your district. Please keep discussions relevant and use this space for important updates only.',
+                wrap: true,
               ),
             ),
           ),
@@ -199,6 +202,7 @@ class _ChatState extends State<Chat> {
                                                     widget.dm.user['id']
                                                 ? Colors.black
                                                 : Colors.white,
+                                            wrap: true,
                                           ),
                                           TextView(
                                             text: mess['message'],
@@ -207,6 +211,7 @@ class _ChatState extends State<Chat> {
                                                     widget.dm.user['id']
                                                 ? Colors.black
                                                 : Colors.white,
+                                            wrap: true,
                                           ),
                                         ],
                                       ),

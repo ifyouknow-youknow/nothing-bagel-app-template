@@ -1,4 +1,5 @@
 import 'package:edm_teachers_app/FUNCTIONS/location.dart';
+import 'package:edm_teachers_app/MODELS/screen.dart';
 import 'package:edm_teachers_app/VIEWS/Events.dart';
 import 'package:edm_teachers_app/VIEWS/Timecard.dart';
 import 'package:flutter/material.dart';
@@ -74,6 +75,7 @@ class _DashboardState extends State<Dashboard> {
         'date',
         "desc",
         1);
+    print(docs);
     return docs;
   }
 
@@ -167,7 +169,7 @@ class _DashboardState extends State<Dashboard> {
             ],
           ),
         ), // -------------
-
+// MAIN
         Expanded(
           child: SingleChildScrollView(
             child: Column(
@@ -211,6 +213,7 @@ class _DashboardState extends State<Dashboard> {
                                                 ),
                                                 size: 18,
                                                 weight: FontWeight.w500,
+                                                wrap: true,
                                               ),
                                               TextView(
                                                 text: formatTime(
@@ -385,94 +388,85 @@ class _DashboardState extends State<Dashboard> {
                 ),
                 // CHAT & GUIDE
                 PaddingView(
-                    paddingTop: 0,
-                    child: Row(
-                      children: [
-                        Expanded(
-                            child: SizedBox(
-                                height: 200,
-                                child: ButtonView(
-                                    radius: 10,
-                                    backgroundColor: hexToColor("#89F150"),
-                                    child: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.start,
-                                          children: [
-                                            FutureView(
-                                              future: _fetchLatestChat(),
-                                              childBuilder: (data) {
-                                                return PaddingView(
-                                                  child: Column(
-                                                    crossAxisAlignment:
-                                                        CrossAxisAlignment
-                                                            .start,
-                                                    children: [
-                                                      TextView(
-                                                        text: data.first[
-                                                            'nameInitial'],
-                                                        weight: FontWeight.w600,
-                                                      ),
-                                                      TextView(
-                                                        text: '${data.first['message']}${data.first['message'].length > 100 ? "..." : ""}'.substring(
-                                                            0,
-                                                            data
-                                                                        .first[
-                                                                            'message']
-                                                                        .length >
-                                                                    100
-                                                                ? 100
-                                                                : data
-                                                                    .first[
-                                                                        'message']
-                                                                    .length),
-                                                      )
-                                                    ],
-                                                  ),
-                                                );
-                                              },
-                                              emptyWidget: PaddingView(
-                                                child: const TextView(
-                                                    text: 'No chats yet.'),
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                        const PaddingView(
-                                          child: Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
+                  paddingTop: 0,
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: SizedBox(
+                          height: 200,
+                          child: ButtonView(
+                            radius: 10,
+                            backgroundColor: hexToColor("#89F150"),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    FutureView(
+                                      future: _fetchLatestChat(),
+                                      childBuilder: (data) {
+                                        return PaddingView(
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
                                             children: [
                                               TextView(
-                                                text: 'open chat',
-                                                size: 22,
+                                                text: data.first['nameInitial'],
                                                 weight: FontWeight.w600,
                                               ),
-                                              Icon(
-                                                Icons.north_east,
-                                                size: 30,
+                                              SizedBox(
+                                                width: getWidth(context) * 0.4,
+                                                child: TextView(
+                                                  text:
+                                                      '${data.first['message'].substring(0, data.first['message'].length > 50 ? 50 : data.first['message'].length)}...',
+                                                  wrap: true,
+                                                ),
                                               )
                                             ],
                                           ),
-                                        )
-                                      ],
+                                        );
+                                      },
+                                      emptyWidget: PaddingView(
+                                        child: const TextView(
+                                            text: 'No chats yet.'),
+                                      ),
                                     ),
-                                    onPress: () {
-                                      nav_Push(context, Chat(dm: widget.dm),
-                                          () {
-                                        setState(() {});
-                                      });
-                                    }))),
-                        const SizedBox(
-                          width: 10,
+                                  ],
+                                ),
+                                const PaddingView(
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      TextView(
+                                        text: 'open chat',
+                                        size: 22,
+                                        weight: FontWeight.w600,
+                                      ),
+                                      Icon(
+                                        Icons.north_east,
+                                        size: 30,
+                                      )
+                                    ],
+                                  ),
+                                )
+                              ],
+                            ),
+                            onPress: () {
+                              nav_Push(context, Chat(dm: widget.dm), () {
+                                setState(() {});
+                              });
+                            },
+                          ),
                         ),
-                        Expanded(
-                            child: SizedBox(
+                      ),
+                      const SizedBox(
+                        width: 10,
+                      ),
+                      Expanded(
+                        child: SizedBox(
                           height: 200,
                           child: ButtonView(
                               radius: 10,
@@ -487,6 +481,7 @@ class _DashboardState extends State<Dashboard> {
                                       text:
                                           "Check out our teacher's classroom guide.",
                                       size: 16,
+                                      wrap: true,
                                     ),
                                     Row(
                                       mainAxisAlignment:
@@ -511,16 +506,18 @@ class _DashboardState extends State<Dashboard> {
                                   setState(() {});
                                 });
                               }),
-                        ))
-                      ],
-                    )),
+                        ),
+                      )
+                    ],
+                  ),
+                ),
                 // EVENTS
                 PaddingView(
-                    paddingTop: 0,
-                    child: Row(
-                      children: [
-                        Expanded(
-                            child: SizedBox(
+                  paddingTop: 0,
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: SizedBox(
                           height: 200,
                           child: ButtonView(
                               paddingTop: 10,
@@ -548,44 +545,46 @@ class _DashboardState extends State<Dashboard> {
                                             MainAxisAlignment.start,
                                         children: [
                                           FutureView(
-                                              future: _fetchLatestEvent(),
-                                              childBuilder: (data) {
-                                                return Column(
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
-                                                  children: [
-                                                    TextView(
-                                                      text: data.first['title'],
-                                                      size: 22,
-                                                      weight: FontWeight.w600,
-                                                      color: Colors.white,
-                                                    ),
-                                                    TextView(
-                                                      text: formatDate(
-                                                          DateTime.parse(
-                                                              data.first[
-                                                                  'dateStr'])),
-                                                      weight: FontWeight.w500,
-                                                      size: 16,
-                                                    ),
-                                                    TextView(
-                                                      text: formatTime(
-                                                          DateTime.parse(
-                                                              data.first[
-                                                                  'dateStr'])),
-                                                      size: 30,
-                                                      weight: FontWeight.w700,
-                                                      spacing: -2,
-                                                    ),
-                                                  ],
-                                                );
-                                              },
-                                              emptyWidget: PaddingView(
-                                                  child: Center(
+                                            future: _fetchLatestEvent(),
+                                            childBuilder: (data) {
+                                              return Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  TextView(
+                                                    text: data.first['title'],
+                                                    size: 22,
+                                                    weight: FontWeight.w600,
+                                                    color: Colors.white,
+                                                  ),
+                                                  TextView(
+                                                    text: formatDate(
+                                                        DateTime.parse(data
+                                                            .first['dateStr'])),
+                                                    weight: FontWeight.w500,
+                                                    size: 16,
+                                                  ),
+                                                  TextView(
+                                                    text: formatTime(
+                                                        DateTime.parse(data
+                                                            .first['dateStr'])),
+                                                    size: 30,
+                                                    weight: FontWeight.w700,
+                                                    spacing: -2,
+                                                  ),
+                                                ],
+                                              );
+                                            },
+                                            emptyWidget: PaddingView(
+                                              paddingLeft: 0,
+                                              paddingRight: 0,
+                                              child: Center(
                                                 child: TextView(
                                                   text: 'No events posted yet.',
                                                 ),
-                                              ))),
+                                              ),
+                                            ),
+                                          ),
                                         ],
                                       )
                                     ],
@@ -612,9 +611,11 @@ class _DashboardState extends State<Dashboard> {
                                   setState(() {});
                                 });
                               }),
-                        ))
-                      ],
-                    )),
+                        ),
+                      )
+                    ],
+                  ),
+                ),
                 // SPACE
                 SizedBox(
                   height: 30,

@@ -52,10 +52,10 @@ class _GuideState extends State<Guide> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const TextView(
-                    text:
-                        'These steps outline a routine for conducting a successful class. Be sure to follow them in sequence, taking the time to understand each step thoroughly. Proper preparation and timely execution of these steps will ensure a smooth and effective class experience.',
-                    size: 16,
-                  ),
+                      text:
+                          'These steps outline a routine for conducting a successful class. Be sure to follow them in sequence, taking the time to understand each step thoroughly. Proper preparation and timely execution of these steps will ensure a smooth and effective class experience.',
+                      size: 16,
+                      wrap: true),
                   const PaddingView(
                       paddingLeft: 0, paddingRight: 0, child: Divider()),
                   // 1. BACKPACKS
@@ -69,7 +69,7 @@ class _GuideState extends State<Guide> {
                             width: 15,
                           ),
                           SizedBox(
-                            width: getWidth(context) * 0.85,
+                            width: getWidth(context) * 0.80,
                             child: const Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
@@ -79,10 +79,10 @@ class _GuideState extends State<Guide> {
                                   weight: FontWeight.w600,
                                 ),
                                 TextView(
-                                  text:
-                                      'Have the students leave their backpacks outside the classroom door.',
-                                  size: 16,
-                                )
+                                    text:
+                                        'Have the students leave their backpacks outside the classroom door.',
+                                    size: 16,
+                                    wrap: true)
                               ],
                             ),
                           )
@@ -104,7 +104,7 @@ class _GuideState extends State<Guide> {
                             width: 15,
                           ),
                           SizedBox(
-                            width: getWidth(context) * 0.85,
+                            width: getWidth(context) * 0.80,
                             child: const Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
@@ -114,10 +114,10 @@ class _GuideState extends State<Guide> {
                                   weight: FontWeight.w600,
                                 ),
                                 TextView(
-                                  text:
-                                      'Students should have their recorder and music book in hand.',
-                                  size: 16,
-                                )
+                                    text:
+                                        'Students should have their recorder and music book in hand.',
+                                    size: 16,
+                                    wrap: true)
                               ],
                             ),
                           )
@@ -139,7 +139,7 @@ class _GuideState extends State<Guide> {
                             width: 15,
                           ),
                           SizedBox(
-                            width: getWidth(context) * 0.85,
+                            width: getWidth(context) * 0.80,
                             child: const Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
@@ -149,9 +149,9 @@ class _GuideState extends State<Guide> {
                                   weight: FontWeight.w600,
                                 ),
                                 TextView(
-                                  text: 'Students line up at the door.',
-                                  size: 16,
-                                )
+                                    text: 'Students line up at the door.',
+                                    size: 16,
+                                    wrap: true)
                               ],
                             ),
                           )
@@ -173,7 +173,7 @@ class _GuideState extends State<Guide> {
                             width: 15,
                           ),
                           SizedBox(
-                            width: getWidth(context) * 0.85,
+                            width: getWidth(context) * 0.80,
                             child: const Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
@@ -183,10 +183,10 @@ class _GuideState extends State<Guide> {
                                   weight: FontWeight.w600,
                                 ),
                                 TextView(
-                                  text:
-                                      'Students must be quiet before entering the classroom.',
-                                  size: 16,
-                                )
+                                    text:
+                                        'Students must be quiet before entering the classroom.',
+                                    size: 16,
+                                    wrap: true)
                               ],
                             ),
                           )
@@ -208,7 +208,7 @@ class _GuideState extends State<Guide> {
                             width: 15,
                           ),
                           SizedBox(
-                            width: getWidth(context) * 0.85,
+                            width: getWidth(context) * 0.80,
                             child: const Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
@@ -218,10 +218,10 @@ class _GuideState extends State<Guide> {
                                   weight: FontWeight.w600,
                                 ),
                                 TextView(
-                                  text:
-                                      "Students wait for the teacher's signal to enter.",
-                                  size: 16,
-                                )
+                                    text:
+                                        "Students wait for the teacher's signal to enter.",
+                                    size: 16,
+                                    wrap: true)
                               ],
                             ),
                           )
@@ -243,7 +243,7 @@ class _GuideState extends State<Guide> {
                             width: 15,
                           ),
                           SizedBox(
-                            width: getWidth(context) * 0.85,
+                            width: getWidth(context) * 0.80,
                             child: const Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
@@ -253,9 +253,10 @@ class _GuideState extends State<Guide> {
                                   weight: FontWeight.w600,
                                 ),
                                 TextView(
-                                  text: "Students enter the classroom quietly.",
-                                  size: 16,
-                                )
+                                    text:
+                                        "Students enter the classroom quietly.",
+                                    size: 16,
+                                    wrap: true)
                               ],
                             ),
                           )
@@ -277,7 +278,7 @@ class _GuideState extends State<Guide> {
                             width: 15,
                           ),
                           SizedBox(
-                            width: getWidth(context) * 0.85,
+                            width: getWidth(context) * 0.80,
                             child: const Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
@@ -287,10 +288,10 @@ class _GuideState extends State<Guide> {
                                   weight: FontWeight.w600,
                                 ),
                                 TextView(
-                                  text:
-                                      "Students place their music book and recorder on their desk.",
-                                  size: 16,
-                                )
+                                    text:
+                                        "Students place their music book and recorder on their desk.",
+                                    size: 16,
+                                    wrap: true)
                               ],
                             ),
                           )
@@ -312,7 +313,7 @@ class _GuideState extends State<Guide> {
                             width: 15,
                           ),
                           SizedBox(
-                            width: getWidth(context) * 0.85,
+                            width: getWidth(context) * 0.80,
                             child: const Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
@@ -322,10 +323,10 @@ class _GuideState extends State<Guide> {
                                   weight: FontWeight.w600,
                                 ),
                                 TextView(
-                                  text:
-                                      "Students wait quietly while the teacher takes attendance.",
-                                  size: 16,
-                                )
+                                    text:
+                                        "Students wait quietly while the teacher takes attendance.",
+                                    size: 16,
+                                    wrap: true)
                               ],
                             ),
                           )
@@ -347,7 +348,7 @@ class _GuideState extends State<Guide> {
                             width: 15,
                           ),
                           SizedBox(
-                            width: getWidth(context) * 0.85,
+                            width: getWidth(context) * 0.80,
                             child: const Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
@@ -357,10 +358,10 @@ class _GuideState extends State<Guide> {
                                   weight: FontWeight.w600,
                                 ),
                                 TextView(
-                                  text:
-                                      "Go over the key points and concepts from the previous lesson to ensure understanding and retetion.",
-                                  size: 16,
-                                )
+                                    text:
+                                        "Go over the key points and concepts from the previous lesson to ensure understanding and retetion.",
+                                    size: 16,
+                                    wrap: true)
                               ],
                             ),
                           )
@@ -382,7 +383,7 @@ class _GuideState extends State<Guide> {
                             width: 15,
                           ),
                           SizedBox(
-                            width: getWidth(context) * 0.85,
+                            width: getWidth(context) * 0.80,
                             child: const Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
@@ -392,10 +393,10 @@ class _GuideState extends State<Guide> {
                                   weight: FontWeight.w600,
                                 ),
                                 TextView(
-                                  text:
-                                      "Introduce new materials and activities.",
-                                  size: 16,
-                                )
+                                    text:
+                                        "Introduce new materials and activities.",
+                                    size: 16,
+                                    wrap: true)
                               ],
                             ),
                           )
@@ -417,7 +418,7 @@ class _GuideState extends State<Guide> {
                             width: 15,
                           ),
                           SizedBox(
-                            width: getWidth(context) * 0.85,
+                            width: getWidth(context) * 0.80,
                             child: const Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
@@ -427,10 +428,10 @@ class _GuideState extends State<Guide> {
                                   weight: FontWeight.w600,
                                 ),
                                 TextView(
-                                  text:
-                                      "Take a 10-minute break for restroom and water.",
-                                  size: 16,
-                                )
+                                    text:
+                                        "Take a 10-minute break for restroom and water.",
+                                    size: 16,
+                                    wrap: true)
                               ],
                             ),
                           )
@@ -452,7 +453,7 @@ class _GuideState extends State<Guide> {
                             width: 15,
                           ),
                           SizedBox(
-                            width: getWidth(context) * 0.85,
+                            width: getWidth(context) * 0.80,
                             child: const Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
@@ -462,9 +463,9 @@ class _GuideState extends State<Guide> {
                                   weight: FontWeight.w600,
                                 ),
                                 TextView(
-                                  text: "Resume the lesson.",
-                                  size: 16,
-                                )
+                                    text: "Resume the lesson.",
+                                    size: 16,
+                                    wrap: true)
                               ],
                             ),
                           )
@@ -486,7 +487,7 @@ class _GuideState extends State<Guide> {
                             width: 15,
                           ),
                           SizedBox(
-                            width: getWidth(context) * 0.85,
+                            width: getWidth(context) * 0.80,
                             child: const Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
@@ -496,9 +497,9 @@ class _GuideState extends State<Guide> {
                                   weight: FontWeight.w600,
                                 ),
                                 TextView(
-                                  text: "Review important points of lesson.",
-                                  size: 16,
-                                )
+                                    text: "Review important points of lesson.",
+                                    size: 16,
+                                    wrap: true)
                               ],
                             ),
                           )
@@ -520,7 +521,7 @@ class _GuideState extends State<Guide> {
                             width: 15,
                           ),
                           SizedBox(
-                            width: getWidth(context) * 0.85,
+                            width: getWidth(context) * 0.80,
                             child: const Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
@@ -530,10 +531,10 @@ class _GuideState extends State<Guide> {
                                   weight: FontWeight.w600,
                                 ),
                                 TextView(
-                                  text:
-                                      "Students close their music books and place their recorders in their cases.",
-                                  size: 16,
-                                )
+                                    text:
+                                        "Students close their music books and place their recorders in their cases.",
+                                    size: 16,
+                                    wrap: true)
                               ],
                             ),
                           )
@@ -555,7 +556,7 @@ class _GuideState extends State<Guide> {
                             width: 15,
                           ),
                           SizedBox(
-                            width: getWidth(context) * 0.85,
+                            width: getWidth(context) * 0.80,
                             child: const Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
@@ -565,9 +566,10 @@ class _GuideState extends State<Guide> {
                                   weight: FontWeight.w600,
                                 ),
                                 TextView(
-                                  text: "Remind students to practice at home.",
-                                  size: 16,
-                                )
+                                    text:
+                                        "Remind students to practice at home.",
+                                    size: 16,
+                                    wrap: true)
                               ],
                             ),
                           )
@@ -589,7 +591,7 @@ class _GuideState extends State<Guide> {
                             width: 15,
                           ),
                           SizedBox(
-                            width: getWidth(context) * 0.85,
+                            width: getWidth(context) * 0.80,
                             child: const Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
@@ -599,10 +601,10 @@ class _GuideState extends State<Guide> {
                                   weight: FontWeight.w600,
                                 ),
                                 TextView(
-                                  text:
-                                      "Students check for and dispose of any trash around their desks.",
-                                  size: 16,
-                                )
+                                    text:
+                                        "Students check for and dispose of any trash around their desks.",
+                                    size: 16,
+                                    wrap: true)
                               ],
                             ),
                           )
@@ -624,7 +626,7 @@ class _GuideState extends State<Guide> {
                             width: 15,
                           ),
                           SizedBox(
-                            width: getWidth(context) * 0.85,
+                            width: getWidth(context) * 0.80,
                             child: const Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
@@ -634,9 +636,10 @@ class _GuideState extends State<Guide> {
                                   weight: FontWeight.w600,
                                 ),
                                 TextView(
-                                  text: "Students exit the classroom quietly.",
-                                  size: 16,
-                                )
+                                    text:
+                                        "Students exit the classroom quietly.",
+                                    size: 16,
+                                    wrap: true)
                               ],
                             ),
                           )

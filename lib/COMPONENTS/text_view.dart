@@ -15,7 +15,7 @@ class TextView extends StatefulWidget {
     this.isTypewriter = false,
     this.interval = const Duration(milliseconds: 20),
     this.align = TextAlign.left,
-    this.wrap = true,
+    this.wrap = false,
     this.spacing = 0.0,
     this.isStriked = false,
   });

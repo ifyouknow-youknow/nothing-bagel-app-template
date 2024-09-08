@@ -22,6 +22,7 @@ class DataMaster with _DataMasterToggles, _DataMasterStrings, _DataMasterLists {
 // FUNCTIONS
   Future<bool> checkUser() async {
     final user = await auth_CheckUser();
+    print(user);
     if (user != null) {
       var userDoc = await firebase_GetDocument('${appName}_Teachers', user.uid);
 

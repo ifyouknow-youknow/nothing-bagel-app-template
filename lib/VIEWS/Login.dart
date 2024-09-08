@@ -127,8 +127,9 @@ class _LoginState extends State<Login> {
                 child: const TextView(
                   text: 'Sign Up',
                   color: Colors.white,
-                  size: 18,
+                  size: 16,
                   weight: FontWeight.w600,
+                  wrap: false,
                 ),
                 onPress: () {
                   nav_Push(context, SignUp(dm: widget.dm), () {
@@ -223,9 +224,10 @@ class _LoginState extends State<Login> {
                         backgroundColor: hexToColor("#1985C6"),
                         child: const TextView(
                           text: 'Log In',
-                          size: 18,
+                          size: 16,
                           color: Colors.white,
                           weight: FontWeight.w600,
+                          wrap: false,
                         ),
                         onPress: () {
                           onLogin();

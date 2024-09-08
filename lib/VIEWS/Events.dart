@@ -40,7 +40,7 @@ class _EventsState extends State<Events> {
             'field': 'date',
             'operator': '>=',
             'value': DateTime(DateTime.now().year, DateTime.now().month,
-                    DateTime.now().day)
+                    DateTime.now().day, 0, 0, 0)
                 .millisecondsSinceEpoch
           }
         ],
@@ -146,57 +146,88 @@ class _EventsState extends State<Events> {
                         FutureView(
                           future: _fetchLatestEvent(),
                           childBuilder: (data) {
-                            return Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                RoundedCornersView(
-                                  topLeft: 100,
-                                  topRight: 100,
-                                  bottomLeft: 100,
-                                  bottomRight: 100,
-                                  backgroundColor:
-                                      data.first['type'] == 'Concert'
-                                          ? hexToColor("#C06FAC")
-                                          : Colors.black12,
-                                  child: PaddingView(
-                                    paddingTop: 8,
-                                    paddingBottom: 8,
-                                    paddingLeft: 18,
-                                    paddingRight: 18,
-                                    child: TextView(
-                                      text: data.first['type'],
-                                      weight: FontWeight.w600,
-                                      size: 18,
-                                      color: Colors.white,
+                            return ButtonView(
+                              onPress: () {
+                                nav_Push(
+                                    context,
+                                    EventsByDay(
+                                        dm: widget.dm,
+                                        day:
+                                            DateTime.fromMillisecondsSinceEpoch(
+                                                data.first['date'])));
+                              },
+                              child: RoundedCornersView(
+                                backgroundColor: hexToColor("#E9F1FA"),
+                                child: PaddingView(
+                                  child: SizedBox(
+                                    width: double.infinity,
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            RoundedCornersView(
+                                              topLeft: 100,
+                                              topRight: 100,
+                                              bottomLeft: 100,
+                                              bottomRight: 100,
+                                              backgroundColor: data
+                                                          .first['type'] ==
+                                                      'Concert'
+                                                  ? hexToColor("#C06FAC")
+                                                  : data.first['type'] ==
+                                                          'Training'
+                                                      ? hexToColor("#8CC541")
+                                                      : data.first['type'] ==
+                                                              'Meeting'
+                                                          ? hexToColor(
+                                                              "#3490F3")
+                                                          : Colors.black12,
+                                              child: PaddingView(
+                                                paddingTop: 5,
+                                                paddingBottom: 5,
+                                                paddingLeft: 18,
+                                                paddingRight: 18,
+                                                child: TextView(
+                                                  text: data.first['type'],
+                                                  weight: FontWeight.w600,
+                                                  size: 18,
+                                                  color: Colors.white,
+                                                ),
+                                              ),
+                                            ),
+                                            TextView(
+                                              text: formatDate(DateTime
+                                                  .fromMillisecondsSinceEpoch(
+                                                      data.first['date'])),
+                                              size: 18,
+                                              weight: FontWeight.w600,
+                                            ),
+                                          ],
+                                        ),
+                                        SizedBox(
+                                          height: 6,
+                                        ),
+                                        TextView(
+                                          text: data.first['title'],
+                                          size: 20,
+                                          weight: FontWeight.w500,
+                                          wrap: true,
+                                        ),
+                                        TextView(
+                                          text: data.first['details']
+                                              .replaceAll("jjj", "\m"),
+                                          size: 16,
+                                          wrap: true,
+                                        ),
+                                      ],
                                     ),
                                   ),
                                 ),
-                                SizedBox(
-                                  height: 6,
-                                ),
-                                TextView(
-                                  text: data.first['title'],
-                                  size: 20,
-                                  weight: FontWeight.w500,
-                                ),
-                                SizedBox(
-                                  height: 6,
-                                ),
-                                TextView(
-                                  text: data.first['details'],
-                                  size: 16,
-                                ),
-                                SizedBox(
-                                  height: 6,
-                                ),
-                                TextView(
-                                  text: formatLongDate(
-                                      DateTime.fromMillisecondsSinceEpoch(
-                                          data.first['date'])),
-                                  size: 18,
-                                  weight: FontWeight.w600,
-                                ),
-                              ],
+                              ),
                             );
                           },
                           emptyWidget: PaddingView(
@@ -217,7 +248,7 @@ class _EventsState extends State<Events> {
                   year: DateTime.now().year,
                   thisMonth: true,
                   highlightedDates: _eventDates,
-                  selectedColor: hexToColor("#8CC541"),
+                  selectedColor: Colors.black,
                   onTapDate: (date) {
                     nav_Push(context, EventsByDay(dm: widget.dm, day: date));
                   },

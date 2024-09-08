@@ -4,7 +4,6 @@ import 'package:edm_teachers_app/COMPONENTS/button_view.dart';
 import 'package:edm_teachers_app/COMPONENTS/loading_view.dart';
 import 'package:edm_teachers_app/COMPONENTS/text_view.dart';
 import 'package:edm_teachers_app/MODELS/DATAMASTER/datamaster.dart';
-import 'package:edm_teachers_app/MODELS/screen.dart';
 
 class MainView extends StatefulWidget {
   final DataMaster dm;
@@ -29,16 +28,13 @@ class _MainViewState extends State<MainView> {
       backgroundColor: widget.backgroundColor,
       body: Stack(
         children: [
-          SizedBox(
-            height: getHeight(context),
-            child: Column(
-              children: [
-                const SizedBox(
-                  height: 46,
-                ),
-                ...widget.children,
-              ],
-            ),
+          Column(
+            children: [
+              const SizedBox(
+                height: 46,
+              ),
+              ...widget.children,
+            ],
           ),
 
           // ABSOLUTE

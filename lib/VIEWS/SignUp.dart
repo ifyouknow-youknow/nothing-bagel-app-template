@@ -147,6 +147,25 @@ class _SignupState extends State<SignUp> {
   @override
   Widget build(BuildContext context) {
     return MainView(dm: widget.dm, children: [
+      PaddingView(
+        paddingTop: 0,
+        paddingBottom: 0,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            ButtonView(
+                child: TextView(
+                  text: 'back',
+                  size: 16,
+                  wrap: false,
+                  weight: FontWeight.w500,
+                ),
+                onPress: () {
+                  nav_Pop(context);
+                }),
+          ],
+        ),
+      ),
       const PaddingView(
         child: Center(
           child: ImageView(
@@ -264,6 +283,7 @@ class _SignupState extends State<SignUp> {
                   color: Colors.white,
                   weight: FontWeight.w600,
                   size: 18,
+                  wrap: false,
                 ),
                 onPress: () {
                   onSignUp();

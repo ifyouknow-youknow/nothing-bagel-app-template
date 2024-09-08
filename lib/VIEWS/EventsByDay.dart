@@ -107,51 +107,73 @@ class _EventsByDayState extends State<EventsByDay> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 ..._events.map((eve) {
-                  return BorderView(
-                    bottom: true,
-                    bottomColor: Colors.black54,
-                    child: PaddingView(
-                      paddingLeft: 0,
-                      paddingRight: 0,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          RoundedCornersView(
-                            topLeft: 100,
-                            topRight: 100,
-                            bottomLeft: 100,
-                            bottomRight: 100,
-                            backgroundColor: eve['type'] == 'Concert'
-                                ? hexToColor("#C06FAC")
-                                : Colors.black12,
-                            child: PaddingView(
-                              paddingTop: 8,
-                              paddingBottom: 8,
-                              paddingLeft: 18,
-                              paddingRight: 18,
-                              child: TextView(
-                                text: eve['type'],
-                                color: Colors.white,
-                                size: 18,
-                                weight: FontWeight.w500,
-                              ),
+                  return Column(
+                    children: [
+                      RoundedCornersView(
+                        backgroundColor: hexToColor("#E9F1FA"),
+                        child: PaddingView(
+                          child: SizedBox(
+                            width: double.infinity,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                RoundedCornersView(
+                                  topLeft: 100,
+                                  topRight: 100,
+                                  bottomLeft: 100,
+                                  bottomRight: 100,
+                                  backgroundColor: eve['type'] == 'Concert'
+                                      ? hexToColor("#C06FAC")
+                                      : eve['type'] == 'Training'
+                                          ? hexToColor("#8CC541")
+                                          : eve['type'] == 'Meeting'
+                                              ? hexToColor("#3490F3")
+                                              : Colors.black12,
+                                  child: PaddingView(
+                                    paddingTop: 6,
+                                    paddingBottom: 6,
+                                    paddingLeft: 18,
+                                    paddingRight: 18,
+                                    child: TextView(
+                                      text: eve['type'],
+                                      color: Colors.white,
+                                      size: 18,
+                                      weight: FontWeight.w500,
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: 10,
+                                ),
+                                TextView(
+                                  text: formatTime(
+                                      DateTime.fromMillisecondsSinceEpoch(
+                                          eve['date'])),
+                                  size: 40,
+                                  weight: FontWeight.w900,
+                                  spacing: -2,
+                                  wrap: true,
+                                ),
+                                TextView(
+                                  text: eve['title'],
+                                  size: 22,
+                                  weight: FontWeight.w600,
+                                  wrap: true,
+                                ),
+                                TextView(
+                                    text:
+                                        eve['details'].replaceAll('jjj', "\n"),
+                                    size: 16,
+                                    wrap: true)
+                              ],
                             ),
                           ),
-                          SizedBox(
-                            height: 10,
-                          ),
-                          TextView(
-                            text: eve['title'],
-                            size: 22,
-                            weight: FontWeight.w600,
-                          ),
-                          TextView(
-                            text: eve['details'],
-                            size: 16,
-                          )
-                        ],
+                        ),
                       ),
-                    ),
+                      SizedBox(
+                        height: 10,
+                      )
+                    ],
                   );
                 }),
                 SizedBox(
