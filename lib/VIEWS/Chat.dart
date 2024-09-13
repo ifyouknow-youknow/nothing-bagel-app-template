@@ -30,40 +30,19 @@ class _ChatState extends State<Chat> {
 
   // FUNCTIONS
   Future<List<Map<String, dynamic>>> _fetchMessages() async {
-    var doc = null;
-    final stream = firebase_GetAllDocumentsQueriedOrderedLimitedListener(
-      '${appName}_Chats',
-      [
-        {
-          'field': 'districtId',
-          'operator': '==',
-          'value': widget.dm.user['districtId'],
-        },
-      ],
-      'date',
-      'desc',
-      80,
-      (newDoc) {
-        // Handle new document addition if needed
-        if (newDoc['userId'] != widget.dm.user['id']) {
-          doc = newDoc;
-        }
-      },
-      (updatedDoc) {
-        // Handle document updates if needed
-      },
-      (removedDoc) {
-        // Handle document removal if needed
-      },
-    );
-
-    // Convert the stream to a Future that resolves with the list of documents
-    final docs = await stream.first;
-    if (doc != null) {
-      return sortArrayByProperty([...docs, doc], 'date');
-    } else {
-      return sortArrayByProperty(docs, 'date');
-    }
+    final docs = await firebase_GetAllDocumentsOrderedQueriedLimited(
+        '${appName}_Chats',
+        [
+          {
+            'field': 'userId',
+            'operator': '==',
+            'value': widget.dm.user['id'],
+          }
+        ],
+        'date',
+        "desc",
+        80);
+    return sortArrayByProperty(docs, "date");
   }
 
   void onSend() async {
@@ -75,34 +54,10 @@ class _ChatState extends State<Chat> {
       'userId': widget.dm.user['id'],
       'message': _textController.text,
       'date': DateTime.now().millisecondsSinceEpoch,
-      'nameInitial':
-          '${widget.dm.user['firstName']} ${widget.dm.user['lastName'][0]}',
-      'districtId': widget.dm.user['districtId']
+      'senderId': widget.dm.user['id'],
     });
 // GET ALL TOKENS
     if (success) {
-      final teacherDocs =
-          await firebase_GetAllDocumentsQueried('${appName}_Teachers', [
-        {
-          'field': 'districtId',
-          'operator': "==",
-          'value': widget.dm.user['districtId']
-        }
-      ]);
-
-      final tokens = teacherDocs
-          .map((ting) => ting['token'])
-          .where((token) => token != widget.dm.user['token']);
-
-      if (tokens.isNotEmpty) {
-        for (var token in tokens) {
-          await sendPushNotification(
-              token,
-              '${widget.dm.user['firstName']} ${widget.dm.user['lastName'][0]}',
-              _textController.text);
-        }
-      }
-
       setState(() {
         _textController.clear();
         widget.dm.setToggleLoading(false);
@@ -135,14 +90,29 @@ class _ChatState extends State<Chat> {
               text: "Let's chat!",
               size: 20,
             ),
-            ButtonView(
-                child: const Icon(
-                  Icons.menu,
-                  size: 36,
+            Row(
+              children: [
+                ButtonView(
+                    child: const Icon(
+                      Icons.refresh,
+                      size: 36,
+                    ),
+                    onPress: () {
+                      setState(() {});
+                    }),
+                SizedBox(
+                  width: 10,
                 ),
-                onPress: () {
-                  nav_Push(context, Navigation(dm: widget.dm));
-                })
+                ButtonView(
+                    child: const Icon(
+                      Icons.menu,
+                      size: 36,
+                    ),
+                    onPress: () {
+                      nav_Push(context, Navigation(dm: widget.dm));
+                    })
+              ],
+            )
           ],
         ),
       ),
@@ -154,7 +124,7 @@ class _ChatState extends State<Chat> {
             child: const PaddingView(
               child: TextView(
                 text:
-                    'This chat is restricted to your district. Please keep discussions relevant and use this space for important updates only.',
+                    'Chat with your administrator for any questions, requests, or concerns. This chat is only open for professional purposes.',
                 wrap: true,
               ),
             ),
@@ -184,9 +154,10 @@ class _ChatState extends State<Chat> {
                             children: [
                               RoundedCornersView(
                                 child: Container(
-                                  color: mess['userId'] != widget.dm.user['id']
-                                      ? hexToColor("#EFF1F3")
-                                      : hexToColor("#1985C6"),
+                                  color:
+                                      mess['senderId'] != widget.dm.user['id']
+                                          ? hexToColor("#EFF1F3")
+                                          : hexToColor("#1985C6"),
                                   child: SizedBox(
                                     width: getWidth(context) * 0.85,
                                     child: PaddingView(
@@ -195,10 +166,10 @@ class _ChatState extends State<Chat> {
                                             CrossAxisAlignment.start,
                                         children: [
                                           TextView(
-                                            text: mess['nameInitial'],
+                                            text: 'me',
                                             weight: FontWeight.w600,
                                             size: 14,
-                                            color: mess['userId'] !=
+                                            color: mess['senderId'] !=
                                                     widget.dm.user['id']
                                                 ? Colors.black
                                                 : Colors.white,
@@ -207,7 +178,7 @@ class _ChatState extends State<Chat> {
                                           TextView(
                                             text: mess['message'],
                                             size: 16,
-                                            color: mess['userId'] !=
+                                            color: mess['senderId'] !=
                                                     widget.dm.user['id']
                                                 ? Colors.black
                                                 : Colors.white,

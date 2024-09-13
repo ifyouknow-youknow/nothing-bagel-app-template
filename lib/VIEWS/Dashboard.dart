@@ -284,9 +284,19 @@ class _DashboardState extends State<Dashboard> {
                                         ),
                                       ),
                                       onPress: () async {
+                                        setState(() {
+                                          widget.dm.setToggleLoading(true);
+                                        });
                                         final location =
                                             await getLocation(context);
                                         if (location != null) {
+                                          widget.dm.setMyLocation(LatLng(
+                                              location.latitude,
+                                              location.longitude));
+                                          setState(() {
+                                            widget.dm.setToggleLoading(false);
+                                          });
+
                                           onPunch(); // GO TO TIMECARD PAGE
                                         }
                                       },
@@ -375,8 +385,21 @@ class _DashboardState extends State<Dashboard> {
                                     ],
                                   ),
                                 ),
-                                onPress: () {
-                                  onPunch();
+                                onPress: () async {
+                                  setState(() {
+                                    widget.dm.setToggleLoading(true);
+                                  });
+                                  final location = await getLocation(context);
+                                  print(location);
+                                  if (location != null) {
+                                    widget.dm.setMyLocation(LatLng(
+                                        location.latitude, location.longitude));
+                                    setState(() {
+                                      widget.dm.setToggleLoading(false);
+                                    });
+
+                                    onPunch(); // GO TO TIMECARD PAGE
+                                  }
                                 },
                               ),
                             ),

@@ -26,13 +26,11 @@ class DataMaster with _DataMasterToggles, _DataMasterStrings, _DataMasterLists {
     if (user != null) {
       var userDoc = await firebase_GetDocument('${appName}_Teachers', user.uid);
 
-      if (userDoc['token'] == "" || userDoc['token'] == null) {
-        final token = await messaging_SetUp();
-        final success = await firebase_UpdateDocument(
-            '${appName}_Teachers', userDoc['id'], {'token': token});
-        if (success) {
-          userDoc = {...userDoc, 'token': token};
-        }
+      final token = await messaging_SetUp();
+      final success = await firebase_UpdateDocument(
+          '${appName}_Teachers', userDoc['id'], {'token': token});
+      if (success) {
+        userDoc = {...userDoc, 'token': token};
       }
       setUser(userDoc);
       return true;

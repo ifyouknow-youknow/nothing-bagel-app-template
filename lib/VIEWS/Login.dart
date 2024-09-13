@@ -43,7 +43,8 @@ class _LoginState extends State<Login> {
       widget.dm.setToggleLoading(true);
     });
 
-    final _ = await auth_SignIn(email, password);
+    final user = await auth_SignIn(email, password);
+    print(user);
     final signedIn = await widget.dm.checkUser();
     if (signedIn) {
       nav_PushAndRemove(context, Dashboard(dm: widget.dm));
@@ -125,7 +126,7 @@ class _LoginState extends State<Login> {
                 paddingRight: 18,
                 radius: 100,
                 child: const TextView(
-                  text: 'Sign Up',
+                  text: 'sign up',
                   color: Colors.white,
                   size: 16,
                   weight: FontWeight.w600,
@@ -223,7 +224,7 @@ class _LoginState extends State<Login> {
                         radius: 100,
                         backgroundColor: hexToColor("#1985C6"),
                         child: const TextView(
-                          text: 'Log In',
+                          text: 'log in',
                           size: 16,
                           color: Colors.white,
                           weight: FontWeight.w600,

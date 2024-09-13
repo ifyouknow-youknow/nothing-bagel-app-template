@@ -696,31 +696,56 @@ Future<bool> storage_UploadMedia(String path, File file) async {
 // MESSAGING
 // SET UP
 
-Future<String> messaging_SetUp() async {
-  await messaging.requestPermission();
-  fetchAPNSToken();
-  // Fetch the device token
-  String? token = await FirebaseMessaging.instance.getToken();
-  print("Device Token: $token");
-  // setInDevice('token', token);
+Future<String?> messaging_SetUp() async {
+  // Request notification permissions
+  NotificationSettings settings =
+      await FirebaseMessaging.instance.requestPermission();
 
-  // Set up foreground message handler
-  FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-    print('Message received in foreground: ${message.messageId}');
-    // Handle foreground message
-  });
+  // Check if permission is granted or not
+  if (settings.authorizationStatus == AuthorizationStatus.denied ||
+      settings.authorizationStatus == AuthorizationStatus.notDetermined) {
+    print('Notification permission not granted. Asking again...');
 
-  // Set up background message handler
-  FirebaseMessaging.onBackgroundMessage(handleBackgroundMessage);
+    // Request permission again
+    settings = await FirebaseMessaging.instance.requestPermission();
+  }
 
-  // Set up notification handling when the app is launched from a notification
-  FirebaseMessaging.instance.getInitialMessage().then((RemoteMessage? message) {
-    if (message != null) {
-      print('App launched from notification: ${message.messageId}');
-      // Handle notification tap
-    }
-  });
-  return token!;
+  // Check again after re-requesting permissions
+  if (settings.authorizationStatus == AuthorizationStatus.authorized ||
+      settings.authorizationStatus == AuthorizationStatus.provisional) {
+    print('Notification permission granted.');
+
+    // Fetch the APNS token (for iOS)
+    fetchAPNSToken();
+
+    // Fetch the device token
+    String? token = await FirebaseMessaging.instance.getToken();
+    print("Device Token: $token");
+
+    // Set up foreground message handler
+    FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+      print('Message received in foreground: ${message.messageId}');
+      // Handle foreground message
+    });
+
+    // Set up background message handler
+    FirebaseMessaging.onBackgroundMessage(handleBackgroundMessage);
+
+    // Handle notification when the app is launched from a notification
+    FirebaseMessaging.instance
+        .getInitialMessage()
+        .then((RemoteMessage? message) {
+      if (message != null) {
+        print('App launched from notification: ${message.messageId}');
+        // Handle notification tap
+      }
+    });
+
+    return token;
+  } else {
+    print('Notification permission denied.');
+    return null; // No token if permission is denied
+  }
 }
 
 Future<void> messaging_IosSetUp() async {

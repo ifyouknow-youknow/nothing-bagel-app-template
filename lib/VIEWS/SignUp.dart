@@ -279,7 +279,7 @@ class _SignupState extends State<SignUp> {
                 radius: 100,
                 backgroundColor: hexToColor("#253677"),
                 child: const TextView(
-                  text: 'Sign Up',
+                  text: 'sign up',
                   color: Colors.white,
                   weight: FontWeight.w600,
                   size: 18,

@@ -119,20 +119,23 @@ class _TracksState extends State<Tracks> {
                             children: [
                               TextView(
                                 text: track['title'],
-                                size: 20,
+                                size: 18,
+                                wrap: true,
                               ),
                               Row(
                                 children: [
                                   ButtonView(
                                     child: Icon(
                                       Icons.play_arrow_rounded,
-                                      size: 38,
+                                      size: 32,
                                       color: hexToColor("#1985C6"),
                                     ),
-                                    onPress: () {
+                                    onPress: () async {
+                                      await _mediaPlayer.stopPlaying();
+                                      _mediaPlayer.audioPath = "";
                                       _mediaPlayer.audioPath =
                                           track['audioUrl'];
-                                      _mediaPlayer.playRecording();
+                                      await _mediaPlayer.playRecording();
                                     },
                                   ),
                                   SizedBox(
@@ -141,10 +144,11 @@ class _TracksState extends State<Tracks> {
                                   ButtonView(
                                     child: Icon(
                                       Icons.stop_rounded,
-                                      size: 38,
+                                      size: 32,
                                       color: hexToColor("#FF1F54"),
                                     ),
                                     onPress: () {
+                                      _mediaPlayer.audioPath = "";
                                       _mediaPlayer.stopPlaying();
                                     },
                                   )
