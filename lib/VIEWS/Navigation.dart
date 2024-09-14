@@ -1,3 +1,4 @@
+import 'package:edm_teachers_app/MODELS/constants.dart';
 import 'package:edm_teachers_app/VIEWS/Events.dart';
 import 'package:edm_teachers_app/VIEWS/Timecard.dart';
 import 'package:edm_teachers_app/VIEWS/Tracks.dart';
@@ -11,7 +12,6 @@ import 'package:edm_teachers_app/COMPONENTS/text_view.dart';
 import 'package:edm_teachers_app/FUNCTIONS/nav.dart';
 import 'package:edm_teachers_app/MODELS/DATAMASTER/datamaster.dart';
 import 'package:edm_teachers_app/MODELS/firebase.dart';
-import 'package:edm_teachers_app/MODELS/screen.dart';
 import 'package:edm_teachers_app/VIEWS/Chat.dart';
 import 'package:edm_teachers_app/VIEWS/Dashboard.dart';
 import 'package:edm_teachers_app/VIEWS/Guide.dart';
@@ -26,6 +26,67 @@ class Navigation extends StatefulWidget {
 }
 
 class _NavigationState extends State<Navigation> {
+//
+  void onDeleteAccount() async {
+    setState(() {
+      widget.dm.setToggleAlert(true);
+      widget.dm.setAlertTitle('Delete Account');
+      widget.dm.setAlertText(
+          'Are you sure you want to delete your account? This action is irreversible.');
+      widget.dm.setAlertButtons([
+        ButtonView(
+            backgroundColor: Colors.red,
+            paddingTop: 8,
+            paddingBottom: 8,
+            paddingLeft: 18,
+            paddingRight: 18,
+            radius: 100,
+            child: TextView(
+              text: 'Delete Account',
+              wrap: false,
+              color: Colors.white,
+            ),
+            onPress: () async {
+              setState(() {
+                widget.dm.setToggleAlert(false);
+                widget.dm.setToggleLoading(true);
+              });
+              final user = await auth_CheckUser();
+              final success = await auth_DeleteUser(user!);
+              if (success) {
+                final punches = await firebase_GetAllDocumentsQueried(
+                    '${appName}_Punches', [
+                  {
+                    'field': 'userId',
+                    'operator': '==',
+                    'value': widget.dm.user['id']
+                  }
+                ]);
+                for (var i in punches) {
+                  await firebase_DeleteDocument('${appName}_Punches', i['id']);
+                }
+                final chats =
+                    await firebase_GetAllDocumentsQueried('${appName}_Chats', [
+                  {
+                    'field': 'userId',
+                    'operator': '==',
+                    'value': widget.dm.user['id']
+                  }
+                ]);
+                for (var i in chats) {
+                  await firebase_DeleteDocument('${appName}_Chats', i['id']);
+                }
+                setState(() {
+                  widget.dm.setUser({});
+                  widget.dm.setToggleLoading(false);
+                });
+                nav_PushAndRemove(context, Login(dm: widget.dm));
+              }
+            })
+      ]);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return MainView(dm: widget.dm, children: [
@@ -272,7 +333,9 @@ class _NavigationState extends State<Navigation> {
             text: 'delete account',
             color: Colors.black54,
           ),
-          onPress: () {},
+          onPress: () {
+            onDeleteAccount();
+          },
         ),
       ),
       const SizedBox(
