@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:nothing_bagel_app_template/FUNCTIONS/misc.dart';
 import 'package:nothing_bagel_app_template/FUNCTIONS/server.dart';
+import 'package:nothing_bagel_app_template/MODELS/constants.dart';
 
 FirebaseFirestore db = FirebaseFirestore.instance;
 FirebaseAuth auth = FirebaseAuth.instance;
@@ -30,11 +31,18 @@ Future<User?> auth_CreateUser(String email, String password) async {
 }
 
 //SIGN IN
-Future<User?> auth_SignIn(String email, String password) async {
+Future<User?> auth_SignIn(String email, String password, String table) async {
   try {
-    UserCredential user =
-        await auth.signInWithEmailAndPassword(email: email, password: password);
-    return user.user;
+    final docs = await firebase_GetAllDocumentsQueried('${appName}_$table', [
+      {'field': 'email', 'operator': '==', 'value': email}
+    ]);
+    if (docs.isNotEmpty) {
+      UserCredential user = await auth.signInWithEmailAndPassword(
+          email: email, password: password);
+      return user.user;
+    } else {
+      return null;
+    }
   } catch (e) {
     print('Error: $e');
     return null;
