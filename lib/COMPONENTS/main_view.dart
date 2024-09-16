@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:edm_teachers_app/COMPONENTS/alert_view.dart';
-import 'package:edm_teachers_app/COMPONENTS/button_view.dart';
-import 'package:edm_teachers_app/COMPONENTS/loading_view.dart';
-import 'package:edm_teachers_app/COMPONENTS/text_view.dart';
-import 'package:edm_teachers_app/MODELS/DATAMASTER/datamaster.dart';
+import 'package:nothing_bagel_app_template/COMPONENTS/alert_view.dart';
+import 'package:nothing_bagel_app_template/COMPONENTS/bubble_view.dart';
+import 'package:nothing_bagel_app_template/COMPONENTS/button_view.dart';
+import 'package:nothing_bagel_app_template/COMPONENTS/loading_view.dart';
+import 'package:nothing_bagel_app_template/COMPONENTS/text_view.dart';
+import 'package:nothing_bagel_app_template/MODELS/DATAMASTER/datamaster.dart';
 
 class MainView extends StatefulWidget {
   final DataMaster dm;
@@ -38,6 +39,7 @@ class _MainViewState extends State<MainView> {
           ),
 
           // ABSOLUTE
+          if (widget.dm.toggleBubble) const BubbleView(),
           if (widget.dm.toggleAlert)
             AlertView(
               title: widget.dm.alertTitle,

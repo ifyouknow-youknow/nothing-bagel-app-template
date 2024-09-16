@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:edm_teachers_app/COMPONENTS/blur_view.dart';
-import 'package:edm_teachers_app/COMPONENTS/text_view.dart';
+import 'package:nothing_bagel_app_template/COMPONENTS/blur_view.dart';
+import 'package:nothing_bagel_app_template/COMPONENTS/text_view.dart';
 
 class AlertView extends StatefulWidget {
   final String title;

@@ -1,10 +1,10 @@
+import 'package:nothing_bagel_app_template/VIEWS/playground.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:edm_teachers_app/MODELS/DATAMASTER/datamaster.dart';
-import 'package:edm_teachers_app/MODELS/firebase.dart';
-import 'package:edm_teachers_app/VIEWS/Login.dart';
-import 'package:edm_teachers_app/firebase_options.dart';
+import 'package:nothing_bagel_app_template/MODELS/DATAMASTER/datamaster.dart';
+import 'package:nothing_bagel_app_template/MODELS/firebase.dart';
+import 'package:nothing_bagel_app_template/firebase_options.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -16,7 +16,7 @@ void main() async {
 
   runApp(
     MaterialApp(
-      home: Login(dm: dm),
+      home: PlaygroundView(dm: dm),
     ),
     // initialRoute: "/",
     // routes: {

@@ -1,35 +1,30 @@
 import 'package:flutter/material.dart';
-import 'package:nothing_bagel_app_template/FUNCTIONS/colors.dart'; // Ensure this file has the `hexToColor` function.
 
-class ButtonView extends StatefulWidget {
-  final Widget child;
+class IconButtonView extends StatefulWidget {
+  final IconData icon;
+  final double iconSize;
+  final Color iconColor;
   final Color backgroundColor;
-  final double radius;
-  final double paddingTop;
-  final double paddingLeft;
-  final double paddingRight;
-  final double paddingBottom;
+  final double width;
   final VoidCallback onPress;
   final bool isDisabled;
 
-  const ButtonView({
+  const IconButtonView({
     super.key,
-    required this.child,
-    this.backgroundColor = Colors.transparent,
-    this.radius = 0.0,
-    this.paddingTop = 0.0,
-    this.paddingLeft = 0.0,
-    this.paddingRight = 0.0,
-    this.paddingBottom = 0.0,
+    required this.icon,
+    this.iconSize = 32,
+    this.iconColor = Colors.black,
+    this.backgroundColor = Colors.black12,
+    this.width = 24.0, // Circular shape
     required this.onPress,
     this.isDisabled = false,
   });
 
   @override
-  _ButtonViewState createState() => _ButtonViewState();
+  State<IconButtonView> createState() => _IconButtonViewState();
 }
 
-class _ButtonViewState extends State<ButtonView> {
+class _IconButtonViewState extends State<IconButtonView> {
   double _opacity = 1.0;
 
   void _onTapDown(TapDownDetails details) {
@@ -64,20 +59,22 @@ class _ButtonViewState extends State<ButtonView> {
       onTapCancel: _onTapCancel,
       onTap: widget.isDisabled ? null : widget.onPress,
       child: AnimatedOpacity(
-        duration: Duration(milliseconds: 100),
+        duration: const Duration(milliseconds: 100),
         opacity: widget.isDisabled ? 0.5 : _opacity,
         child: Container(
+          width: widget.width * 2, // Ensures circular shape
+          height: widget.width * 2, // Ensures circular shape
           decoration: BoxDecoration(
             color: widget.backgroundColor,
-            borderRadius: BorderRadius.circular(widget.radius),
+            borderRadius: BorderRadius.circular(widget.width),
           ),
-          padding: EdgeInsets.only(
-            top: widget.paddingTop,
-            left: widget.paddingLeft,
-            right: widget.paddingRight,
-            bottom: widget.paddingBottom,
+          child: Center(
+            child: Icon(
+              widget.icon,
+              size: widget.iconSize,
+              color: widget.iconColor,
+            ),
           ),
-          child: widget.child,
         ),
       ),
     );

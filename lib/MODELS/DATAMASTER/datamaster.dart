@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:edm_teachers_app/MODELS/constants.dart';
-import 'package:edm_teachers_app/MODELS/firebase.dart';
+import 'package:nothing_bagel_app_template/MODELS/constants.dart';
+import 'package:nothing_bagel_app_template/MODELS/firebase.dart';
 
 part 'toggles.dart';
 part 'strings.dart';
@@ -37,6 +37,12 @@ class DataMaster with _DataMasterToggles, _DataMasterStrings, _DataMasterLists {
     } else {
       return false;
     }
+  }
+
+  void praiseTheBagel() {
+    setToggleAlert(true);
+    setAlertTitle("All Hail Nothing.");
+    setAlertText('Nothing rules over the Bagel.');
   }
 
   void alertSomethingWrong() {

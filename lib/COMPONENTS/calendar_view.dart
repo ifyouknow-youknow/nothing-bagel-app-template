@@ -1,11 +1,11 @@
-import 'package:edm_teachers_app/MODELS/screen.dart';
+import 'package:nothing_bagel_app_template/MODELS/screen.dart';
 import 'package:flutter/material.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
-import 'package:edm_teachers_app/COMPONENTS/button_view.dart';
-import 'package:edm_teachers_app/COMPONENTS/padding_view.dart';
-import 'package:edm_teachers_app/COMPONENTS/text_view.dart';
-import 'package:edm_teachers_app/FUNCTIONS/colors.dart';
-import 'package:edm_teachers_app/FUNCTIONS/date.dart';
+import 'package:nothing_bagel_app_template/COMPONENTS/button_view.dart';
+import 'package:nothing_bagel_app_template/COMPONENTS/padding_view.dart';
+import 'package:nothing_bagel_app_template/COMPONENTS/text_view.dart';
+import 'package:nothing_bagel_app_template/FUNCTIONS/colors.dart';
+import 'package:nothing_bagel_app_template/FUNCTIONS/date.dart';
 
 class CalendarView extends StatefulWidget {
   final Color backgroundColor;

@@ -3,37 +3,40 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:edm_teachers_app/COMPONENTS/accordion_view.dart';
-import 'package:edm_teachers_app/COMPONENTS/blur_view.dart';
-import 'package:edm_teachers_app/COMPONENTS/button_view.dart';
-import 'package:edm_teachers_app/COMPONENTS/calendar_view.dart';
-import 'package:edm_teachers_app/COMPONENTS/checkbox_view.dart';
-import 'package:edm_teachers_app/COMPONENTS/dropdown_view.dart';
-import 'package:edm_teachers_app/COMPONENTS/fade_view.dart';
-import 'package:edm_teachers_app/COMPONENTS/loading_view.dart';
-import 'package:edm_teachers_app/COMPONENTS/main_view.dart';
-import 'package:edm_teachers_app/COMPONENTS/map_view.dart';
-import 'package:edm_teachers_app/COMPONENTS/padding_view.dart';
-import 'package:edm_teachers_app/COMPONENTS/pager_view.dart';
-import 'package:edm_teachers_app/COMPONENTS/qrcode_view.dart';
-import 'package:edm_teachers_app/COMPONENTS/roundedcorners_view.dart';
-import 'package:edm_teachers_app/COMPONENTS/scrollable_view.dart';
-import 'package:edm_teachers_app/COMPONENTS/segmented_view.dart';
-import 'package:edm_teachers_app/COMPONENTS/separated_view.dart';
-import 'package:edm_teachers_app/COMPONENTS/split_view.dart';
-import 'package:edm_teachers_app/COMPONENTS/switch_view.dart';
-import 'package:edm_teachers_app/COMPONENTS/text_view.dart';
-import 'package:edm_teachers_app/FUNCTIONS/colors.dart';
-import 'package:edm_teachers_app/FUNCTIONS/date.dart';
-import 'package:edm_teachers_app/FUNCTIONS/media.dart';
-import 'package:edm_teachers_app/FUNCTIONS/misc.dart';
-import 'package:edm_teachers_app/FUNCTIONS/recorder.dart';
-import 'package:edm_teachers_app/FUNCTIONS/server.dart';
-import 'package:edm_teachers_app/MODELS/coco.dart';
-import 'package:edm_teachers_app/MODELS/constants.dart';
-import 'package:edm_teachers_app/MODELS/DATAMASTER/datamaster.dart';
-import 'package:edm_teachers_app/MODELS/firebase.dart';
-import 'package:edm_teachers_app/MODELS/screen.dart';
+import 'package:nothing_bagel_app_template/COMPONENTS/accordion_view.dart';
+import 'package:nothing_bagel_app_template/COMPONENTS/bargraph_view.dart';
+import 'package:nothing_bagel_app_template/COMPONENTS/blur_view.dart';
+import 'package:nothing_bagel_app_template/COMPONENTS/button_view.dart';
+import 'package:nothing_bagel_app_template/COMPONENTS/calendar_view.dart';
+import 'package:nothing_bagel_app_template/COMPONENTS/checkbox_view.dart';
+import 'package:nothing_bagel_app_template/COMPONENTS/circleprogress_view.dart';
+import 'package:nothing_bagel_app_template/COMPONENTS/dropdown_view.dart';
+import 'package:nothing_bagel_app_template/COMPONENTS/fade_view.dart';
+import 'package:nothing_bagel_app_template/COMPONENTS/iconbutton_view.dart';
+import 'package:nothing_bagel_app_template/COMPONENTS/loading_view.dart';
+import 'package:nothing_bagel_app_template/COMPONENTS/main_view.dart';
+import 'package:nothing_bagel_app_template/COMPONENTS/map_view.dart';
+import 'package:nothing_bagel_app_template/COMPONENTS/padding_view.dart';
+import 'package:nothing_bagel_app_template/COMPONENTS/pager_view.dart';
+import 'package:nothing_bagel_app_template/COMPONENTS/pill_view.dart';
+import 'package:nothing_bagel_app_template/COMPONENTS/progress_view.dart';
+import 'package:nothing_bagel_app_template/COMPONENTS/qrcode_view.dart';
+import 'package:nothing_bagel_app_template/COMPONENTS/roundedcorners_view.dart';
+import 'package:nothing_bagel_app_template/COMPONENTS/segmented_view.dart';
+import 'package:nothing_bagel_app_template/COMPONENTS/slider_view.dart';
+import 'package:nothing_bagel_app_template/COMPONENTS/switch_view.dart';
+import 'package:nothing_bagel_app_template/COMPONENTS/text_view.dart';
+import 'package:nothing_bagel_app_template/FUNCTIONS/colors.dart';
+import 'package:nothing_bagel_app_template/FUNCTIONS/date.dart';
+import 'package:nothing_bagel_app_template/FUNCTIONS/media.dart';
+import 'package:nothing_bagel_app_template/FUNCTIONS/misc.dart';
+import 'package:nothing_bagel_app_template/FUNCTIONS/recorder.dart';
+import 'package:nothing_bagel_app_template/FUNCTIONS/server.dart';
+import 'package:nothing_bagel_app_template/MODELS/coco.dart';
+import 'package:nothing_bagel_app_template/MODELS/constants.dart';
+import 'package:nothing_bagel_app_template/MODELS/DATAMASTER/datamaster.dart';
+import 'package:nothing_bagel_app_template/MODELS/firebase.dart';
+import 'package:nothing_bagel_app_template/MODELS/screen.dart';
 import 'package:record/record.dart';
 
 class PlaygroundView extends StatefulWidget {
@@ -51,19 +54,25 @@ class _PlaygroundViewState extends State<PlaygroundView> {
       const PaddingView(
         child: Center(
           child: TextView(
-            text: "Hello! This is the IIC Flutter App Template",
+            text: "Nothing defeats the Bagel.",
+            size: 22,
+            weight: FontWeight.w600,
           ),
         ),
       ),
       const SizedBox(
-        height: 20,
+        height: 10,
       ),
       ButtonView(
-          child: const TextView(
-            text: 'Press Me',
+          child: PillView(
+            child: TextView(
+              text: 'Press Me',
+            ),
           ),
           onPress: () {
-            function_ScanQRCode(context);
+            setState(() {
+              widget.dm.praiseTheBagel();
+            });
           }),
       const SizedBox(
         height: 10,
