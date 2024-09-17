@@ -20,20 +20,23 @@ class DataMaster with _DataMasterToggles, _DataMasterStrings, _DataMasterLists {
   DataMaster();
 
 // FUNCTIONS
-  Future<bool> checkUser() async {
+  Future<bool> checkUser(String table) async {
     final user = await auth_CheckUser();
     print(user);
     if (user != null) {
-      var userDoc = await firebase_GetDocument('${appName}_Teachers', user.uid);
-
-      final token = await messaging_SetUp();
-      final success = await firebase_UpdateDocument(
-          '${appName}_Teachers', userDoc['id'], {'token': token});
-      if (success) {
-        userDoc = {...userDoc, 'token': token};
+      var userDoc = await firebase_GetDocument('${appName}_$table', user.uid);
+      if (userDoc.isNotEmpty) {
+        final token = await messaging_SetUp();
+        final success = await firebase_UpdateDocument(
+            '${appName}_$table', userDoc['id'], {'token': token});
+        if (success) {
+          userDoc = {...userDoc, 'token': token};
+        }
+        setUser(userDoc);
+        return true;
+      } else {
+        return false;
       }
-      setUser(userDoc);
-      return true;
     } else {
       return false;
     }
