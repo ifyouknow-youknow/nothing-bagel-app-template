@@ -46,11 +46,30 @@ class _TextViewState extends State<TextView> {
   @override
   void initState() {
     super.initState();
+    _initializeText();
+  }
+
+  @override
+  void didUpdateWidget(covariant TextView oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (widget.text != oldWidget.text ||
+        widget.isTypewriter != oldWidget.isTypewriter) {
+      _initializeText();
+    }
+  }
+
+  void _initializeText() {
+    _timer?.cancel();
     if (widget.isTypewriter) {
-      _displayedText = '';
+      setState(() {
+        _displayedText = '';
+        _currentIndex = 0;
+      });
       _startTypewriterEffect();
     } else {
-      _displayedText = widget.text;
+      setState(() {
+        _displayedText = widget.text;
+      });
     }
   }
 
