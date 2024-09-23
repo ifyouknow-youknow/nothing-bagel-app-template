@@ -9,13 +9,15 @@ import 'package:nothing_bagel_app_template/MODELS/screen.dart';
 
 class MainView extends StatefulWidget {
   final DataMaster dm;
-  final List<Widget> children;
+  final List<Widget> mobile;
+  final List<Widget>? tablet;
   final Color backgroundColor;
 
   const MainView({
     super.key,
     required this.dm,
-    required this.children,
+    required this.mobile,
+    this.tablet,
     this.backgroundColor = Colors.white,
   });
 
@@ -38,7 +40,9 @@ class _MainViewState extends State<MainView> {
                 const SizedBox(
                   height: 46,
                 ),
-                ...widget.children,
+                if (getWidth(context) < 520) ...widget.mobile,
+                if (getWidth(context) >= 520 && widget.tablet != null)
+                  ...?widget.tablet
               ],
             ),
 

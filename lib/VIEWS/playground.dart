@@ -50,7 +50,7 @@ class PlaygroundView extends StatefulWidget {
 class _PlaygroundViewState extends State<PlaygroundView> {
   @override
   Widget build(BuildContext context) {
-    return MainView(dm: widget.dm, children: [
+    return MainView(dm: widget.dm, mobile: [
       const PaddingView(
         child: Center(
           child: TextView(
