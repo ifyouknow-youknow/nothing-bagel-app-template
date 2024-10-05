@@ -10,6 +10,7 @@ import 'package:nothing_bagel_app_template/MODELS/screen.dart';
 class MainView extends StatefulWidget {
   final DataMaster dm;
   final List<Widget> mobile;
+  final List<Widget>? landscape;
   final List<Widget>? tablet;
   final Color backgroundColor;
 
@@ -18,6 +19,7 @@ class MainView extends StatefulWidget {
     required this.dm,
     required this.mobile,
     this.tablet,
+    this.landscape,
     this.backgroundColor = Colors.white,
   });
 
@@ -41,6 +43,10 @@ class _MainViewState extends State<MainView> {
                   height: 46,
                 ),
                 if (getWidth(context) < 520) ...widget.mobile,
+                if (getWidth(context) >= 520 &&
+                    getWidth(context) < 720 &&
+                    widget.landscape != null)
+                  ...?widget.landscape,
                 if (getWidth(context) >= 520 && widget.tablet != null)
                   ...?widget.tablet
               ],
